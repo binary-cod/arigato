@@ -6,29 +6,7 @@
     <title>Hello</title>
 </head>
 <body>
-<h1>Products.</h1>
-
-<table>
-    <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Price</th>
-    </tr>
-    <tr th:each="p : ${products}">
-
-        <td th:text="${p.id}"></td>
-        <td th:text="${p.name}"></td>
-        <td th:text="${p.price}"></td>
-        <td>
-        <td>
-            <a th:href="@{/products/delete(id=${p.id})}" th:text="Delete"></a>
-        </td>
-        <td>
-            <a th:href="@{/products/edit(id=${p.id})}" th:text="Edit"></a>
-        </td>
-    </tr>
-
-</table>
+<h1>Edit Product.</h1>
 
 <form action="/products" method="POST">
     <label for="pid">Product ID:</label><br>

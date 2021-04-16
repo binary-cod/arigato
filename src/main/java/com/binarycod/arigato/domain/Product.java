@@ -1,7 +1,10 @@
 package com.binarycod.arigato.domain;
 
+import javax.validation.constraints.NotBlank;
+
 public class Product {
 
+    @NotBlank(message = "Id is required")
     Long id;
     String name;
     Double price;
@@ -14,6 +17,7 @@ public class Product {
         this.name = name;
         this.price = price;
     }
+
 
     public java.lang.Long getId() {
         return id;
