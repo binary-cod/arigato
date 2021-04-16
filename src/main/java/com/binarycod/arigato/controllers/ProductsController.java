@@ -20,13 +20,19 @@ public class ProductsController {
     @GetMapping
     public String getProducts(Model model){
         model.addAttribute("products", productList);
-        model.addAttribute("product", new Product());
+
         return "product_list";
     }
 
+    @GetMapping("/new")
+    public String newProduct(Model model){
+        model.addAttribute("product", new Product());
+        return "new_product";
+    }
+
     @PostMapping
-    public String createProduct(@RequestParam Long pid, @RequestParam String pname, @RequestParam Double price, @RequestParam Integer size){
-        productList.add(new Product(pid, pname, price, size));
+    public String createProduct(Product product){
+        productList.add(product);
         return "redirect:/products";
     }
 
