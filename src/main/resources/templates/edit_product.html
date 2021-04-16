@@ -8,16 +8,16 @@
 <body>
 <h1>Edit Product.</h1>
 
-<form action="/products" method="POST">
+<form th:action="@{/products/edit}" method="POST" th:object="${product}">
     <label for="pid">Product ID:</label><br>
-    <input type="text" id="pid" name="pid"><br>
+    <input type="text" id="pid" name="id" th:field="*{id}" readonly><br>
     <label for="pname">Product name:</label><br>
-    <input type="text" id="pname" name="pname"><br>
+    <input type="text" id="pname" name="name" th:field="*{name}"><br>
     <label for="price">Product Price:</label><br>
-    <input type="text" id="price" name="price"><br>
+    <input type="text" id="price" name="price" th:field="*{price}"><br>
     <label for="size">Product Size:</label><br>
-    <input type="text" id="size" name="size"><br>
-    <input type="submit" value="submit">
+    <input type="text" id="size" name="size" th:field="*{size}"><br>
+    <input type="submit" value="Save">
 </form>
 
 </body>
