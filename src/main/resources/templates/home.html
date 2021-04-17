@@ -1,13 +1,26 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}">
 <html lang="en">
+<!-- CSS only -->
 <head>
     <meta charset="UTF-8">
     <title>Home</title>
 </head>
 <body>
-
+<section layout:fragment="content">
+<a href="/products">Product List</a>
 <h1> I am Home!</h1>
-<p></p><th:text="{}"></th:text></p>
+<figure>
+    <blockquote class="blockquote">
+        <p>A well-known quote, contained in a blockquote element.</p>
+    </blockquote>
+    <figcaption class="blockquote-footer">
+        Someone famous in <cite title="Source Title">Source Title</cite>
+    </figcaption>
+</figure>
+<p></p></th:text></p>
+</section>
 </body>
 </html>

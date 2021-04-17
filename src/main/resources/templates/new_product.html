@@ -1,25 +1,34 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}">
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
+<section layout:fragment="content">
 
 <h1>Create Product</h1>
-
-<form th:action="@{/products}" method="POST" th:object="${product}">
-    <label for="pid">Product ID:</label><br>
-    <input type="text" id="pid" name="id" th:field="*{id}"><br>
-    <label for="pname">Product name:</label><br>
-    <input type="text" id="pname" name="name" th:field="*{name}"><br>
-    <label for="price">Product Price:</label><br>
-    <input type="text" id="price" name="price" th:field="*{price}"><br>
-    <label for="size">Product Size:</label><br>
-    <input type="text" id="size" name="size" th:field="*{size}"><br>
-    <input type="submit" value="Create">
-</form>
-
+<div class="container">
+    <div class="row">
+        <div class="col-sm">
+            <form th:action="@{/products}" method="POST" th:object="${product}">
+                <label for="pid" class="form-label"> Product ID:</label><br>
+                <input type="text" id="pid" name="id" th:field="*{id}" class="form-control"><br>
+                <label for="pname" class="form-label">Product name:</label><br>
+                <input type="text" id="pname" name="name" th:field="*{name}" class="form-control"><br>
+                <label for="price" class="form-label">Product Price:</label><br>
+                <input type="text" id="price" name="price" th:field="*{price}" class="form-control"><br>
+                <label for="size" class="form-label">Product Size:</label><br>
+                <input type="text" id="size" name="size" th:field="*{size}" class="form-control"><br>
+                <input type="submit" value="Create" class="btn btn-success">
+            </form>
+        </div>
+    </div>
+</div>
+</section>
 </body>
 </html>
