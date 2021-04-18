@@ -11,33 +11,32 @@
 </head>
 <body>
 <section layout:fragment="content">
-<h1>Lis of Products.</h1>
-    <table class="table">
-        <thead>
-        <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Name</th>
-            <th scope="col">Price</th>
-            <th scope="col">Size</th>
-            <th scope="col">-</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="p : ${products}">
+    <h1>Lis of Products.</h1>
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Name</th>
+                <th scope="col">Price</th>
+                <th scope="col">Size</th>
+                <th scope="col">-</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="p : ${products}">
 
-            <td th:text="${p.id}"></td>
-            <td th:text="${p.name}"></td>
-            <td th:text="${p.price}"></td>
-            <td th:text="${p.size}"></td>
-            <td>
-                <a th:href="@{/products/delete(id=${p.id})}" th:text="Delete" class="btn btn-danger"></a> |
-                <a th:href="@{/products/edit(id=${p.id})}" th:text="Edit" class="btn btn-primary"></a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-
-<a href="/products/new"> Create Product </a>
+                <td th:text="${p.id}"></td>
+                <td th:text="${p.name}"></td>
+                <td th:text="${p.price}"></td>
+                <td th:text="${p.size}"></td>
+                <td>
+                    <a th:href="@{/products/delete(id=${p.id})}" th:text="Delete" class="btn btn-danger"></a> |
+                    <a th:href="@{/products/edit(id=${p.id})}" th:text="Edit" class="btn btn-primary"></a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <a href="/products/new" class="btn btn-success"> Create Product </a>
 </section>
 </body>
 </html>
