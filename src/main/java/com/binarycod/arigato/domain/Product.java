@@ -2,7 +2,6 @@ package com.binarycod.arigato.domain;
 
 public class Product {
 
-
     Long id;
     String name;
     Double price;

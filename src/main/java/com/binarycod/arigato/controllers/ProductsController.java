@@ -1,12 +1,17 @@
 package com.binarycod.arigato.controllers;
 
 import com.binarycod.arigato.domain.Product;
+import com.binarycod.arigato.repository.ProductRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -17,10 +22,16 @@ public class ProductsController {
 
     List<Product> productList = new ArrayList<>();
 
+    @Autowired
+    ProductRepository productRepository;
+
     @GetMapping
     public String getProducts(Model model){
-        model.addAttribute("products", productList);
 
+        Integer numberOfProducts = productRepository.count();
+
+        model.addAttribute("products", productRepository.getListOfProducts());
+        model.addAttribute("productCount", numberOfProducts);
         return "product_list";
     }
 
