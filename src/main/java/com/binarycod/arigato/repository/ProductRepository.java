@@ -18,6 +18,11 @@ public class ProductRepository {
         return jdbcTemplate.queryForObject("SELECT COUNT(*) FROM products;", Integer.class);
     }
 
+    public void insertProduct(Product product){
+        String query = "INSERT INTO products(id,p_name,price,size) VALUES (?,?,?,?);";
+        jdbcTemplate.update(query, product.getId(), product.getName(), product.getPrice(), product.getSize());
+    }
+
     public List<Product> getListOfProducts(){
         List<Product> productList = jdbcTemplate.query("SELECT * FROM products;", productRowMapper);
         return productList;

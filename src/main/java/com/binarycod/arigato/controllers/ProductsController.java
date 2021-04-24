@@ -1,7 +1,7 @@
 package com.binarycod.arigato.controllers;
 
 import com.binarycod.arigato.domain.Product;
-import com.binarycod.arigato.repository.ProductRepository;
+import com.binarycod.arigato.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,14 +23,14 @@ public class ProductsController {
     List<Product> productList = new ArrayList<>();
 
     @Autowired
-    ProductRepository productRepository;
+    ProductService productService;
 
     @GetMapping
     public String getProducts(Model model){
 
-        Integer numberOfProducts = productRepository.count();
+        Integer numberOfProducts = productService.getCount();
 
-        model.addAttribute("products", productRepository.getListOfProducts());
+        model.addAttribute("products", productService.getProducts());
         model.addAttribute("productCount", numberOfProducts);
         return "product_list";
     }
@@ -43,7 +43,7 @@ public class ProductsController {
 
     @PostMapping
     public String createProduct(Product product){
-        productList.add(product);
+        productService.createProduct(product);
         return "redirect:/products";
     }
 
