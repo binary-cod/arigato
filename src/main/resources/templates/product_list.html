@@ -11,8 +11,11 @@
 </head>
 <body>
 <section layout:fragment="content">
+    <div class="container">
+    <div th:unless="${#strings.isEmpty(error)}" class="alert alert-danger" role="alert">
+        <p th:text="${error}"></p>
+    </div>
 <h1>Lis of Products. </h1>
-    <p th:text="${productCount}"></p>
     <table class="table">
         <thead>
         <tr>
@@ -39,6 +42,7 @@
     </table>
 
 <a href="/products/new"> Create Product </a>
+    </div>
 </section>
 </body>
 </html>

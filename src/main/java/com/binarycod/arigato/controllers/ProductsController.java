@@ -10,17 +10,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 
 @Controller
 @RequestMapping("/products")
 public class ProductsController {
 
-    List<Product> productList = new ArrayList<>();
+    private String error="";
 
     @Autowired
     ProductService productService;
@@ -30,8 +27,10 @@ public class ProductsController {
 
         Integer numberOfProducts = productService.getCount();
 
+        model.addAttribute("error", error);
         model.addAttribute("products", productService.getProducts());
         model.addAttribute("productCount", numberOfProducts);
+
         return "product_list";
     }
 
@@ -49,48 +48,22 @@ public class ProductsController {
 
     @GetMapping("/delete")
     public String deleteProduct(@RequestParam Long id){
-        productList = productList
-                .stream()
-                .filter(p -> !p.getId().equals(id))
-                .collect(Collectors.toList());
-
+        productService.deleteProduct(id);
         return "redirect:/products";
     }
 
     @GetMapping("/edit")
     public String editProduct(@RequestParam Long id, Model model){
-        Optional<Product> productOptional = productList
-                .stream()
-                .filter(p -> p.getId().equals(id))
-                .findFirst();
 
-        if (!productOptional.isPresent())
+        Optional<Product> productOptional = productService.getProduct(id);
+
+        if (!productOptional.isPresent()) {
+            error = "No such product in out store!";
             return "redirect:/products";
-
+        }
         model.addAttribute("product", productOptional.get());
 
         return "edit_product";
     }
 
-    @PostMapping("/edit")
-    public String saveProduct(Product product){
-        Optional<Product> productOld = productList
-                .stream()
-                .filter(p -> p.getId().equals(product.getId()))
-                .findFirst();
-
-        if (productOld.isPresent()){
-            productList.remove(productOld.get());
-            productList.add(product);
-        }
-        /*
-        for (Product p: productList) {
-            if (p.getId().equals(product.getId()))
-                p.setName(product.getName());
-                p.setPrice(product.getPrice());
-                p.setSize(product.getSize());
-        }*/
-
-        return "redirect:/products";
-    }
 }

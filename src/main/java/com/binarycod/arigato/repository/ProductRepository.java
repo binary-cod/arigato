@@ -2,6 +2,7 @@ package com.binarycod.arigato.repository;
 
 import com.binarycod.arigato.domain.Product;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -28,7 +29,21 @@ public class ProductRepository {
         return productList;
     }
 
-    private RowMapper<Product> productRowMapper = (rs, rowNum) -> {
+    public Product getProductByID(Long id){
+        String sql = "SELECT * FROM products WHERE id=?";
+
+        Product product = null;
+
+        try {
+            product = jdbcTemplate.queryForObject(sql, productRowMapper, id);
+        } catch (DataAccessException dae){
+            product = null;
+        }
+
+        return product;
+    }
+
+   private RowMapper<Product> productRowMapper = (rs, rowNum) -> {
       Product p = new Product();
       p.setId(rs.getLong("id"));
       p.setName(rs.getString("p_name"));
@@ -36,4 +51,10 @@ public class ProductRepository {
       p.setSize(rs.getInt("size"));
       return p;
     };
+
+    public void deleteProduct(Long id) {
+        String sql = "DELETE FROM products WHERE id=?";
+
+        jdbcTemplate.update(sql, id);
+    }
 }
