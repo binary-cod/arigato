@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}">
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>New Store</title>
+</head>
+<body>
+<section layout:fragment="content">
+
+    <h1>Create Store</h1>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm">
+                <form th:action="@{/store}" method="POST" th:object="${store}">
+                    <label for="sid" class="form-label"> Store ID:</label><br>
+                    <input type="text" id="sid" name="id" th:field="*{id}" class="form-control"><br>
+                    <label for="sname" class="form-label">Store Name:</label><br>
+                    <input type="text" id="sname" name="name" th:field="*{name}" class="form-control"><br>
+                    <div class="col-12">
+                        <label for="inputAddress" class="form-label">Address</label>
+                        <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St"
+                               th:field="*{address.address1}">
+                    </div>
+                    <div class="col-12">
+                        <label for="inputAddress2" class="form-label">Address 2</label>
+                        <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor"
+                               th:field="*{address.address2}">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="inputCity" class="form-label">City</label>
+                        <input type="text" class="form-control" id="inputCity" th:field="*{address.city}">
+                    </div>
+                    <div class="col-md-4">
+                        <label for="inputState" class="form-label">State</label>
+                        <input type="text" class="form-control" id="inputState" th:field="*{address.state}">
+                    </div>
+                    <div class="col-md-4">
+                        <label for="inputCountry" class="form-label">Country</label>
+                        <input type="text" class="form-control" id="inputCountry" th:field="*{address.country}">
+                    </div>
+                    <div class="col-md-2">
+                        <label for="inputZip" class="form-label">Zip</label>
+                        <input type="text" class="form-control" id="inputZip" th:field="*{address.zipCode}">
+                    </div>
+
+                    <input type="submit" value="Create" class="btn btn-success">
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>
