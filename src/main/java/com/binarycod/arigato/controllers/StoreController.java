@@ -11,11 +11,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-@RequestMapping("/store")
+@RequestMapping("/stores")
 public class StoreController {
 
     @Autowired
     StoreService storeService;
+
+    @GetMapping("/list")
+    public String listStores(Model model){
+
+        model.addAttribute("stores", storeService.getStoreList());
+        return "store_list";
+    }
 
     @GetMapping
     public String newStore(Model model){
@@ -26,12 +33,12 @@ public class StoreController {
     @PostMapping
     public String createStore(Store store){
         storeService.createNewStore(store);
-        return "redirect:/";
+        return "redirect:/stores/list";
     }
 
     @GetMapping("/edit")
     public String getStoreById(@RequestParam Integer id){
         System.out.println(storeService.getStore(id));
-        return "redirect:/";
+        return "redirect:/stores/list";
     }
 }

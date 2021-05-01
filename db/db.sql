@@ -39,3 +39,11 @@ create table store_product (
 
 alter table store_product add constraint foreign key (store_id) references store(id);
 alter table store_product add constraint foreign key (product_id) references products(id);
+
+select st.id as store_id, st.name as store_name,
+pr.id as product_id, pr.p_name as product_name, pr.price, pr.size,
+st_pr.id as store_product_id, st_pr.quantity
+from store_product st_pr
+inner join store st on st_pr.store_id = st.id
+inner join products pr on st_pr.product_id = pr.id
+where st.id =1;

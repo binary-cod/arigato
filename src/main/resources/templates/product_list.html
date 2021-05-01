@@ -11,11 +11,10 @@
 </head>
 <body>
 <section layout:fragment="content">
-    <div class="container">
-    <div th:unless="${#strings.isEmpty(error)}" class="alert alert-danger" role="alert">
-        <p th:text="${error}"></p>
-    </div>
-<h1>Lis of Products. </h1>
+    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+            <h1 class="h2">Products</h1>
+
     <table class="table">
         <thead>
         <tr>
@@ -36,6 +35,7 @@
             <td>
                 <a th:href="@{/products/delete(id=${p.id})}" th:text="Delete" class="btn btn-danger"></a> |
                 <a th:href="@{/products/edit(id=${p.id})}" th:text="Edit" class="btn btn-primary"></a>
+                <a th:href="@{/manage_store/accept_product(productId=${p.id})}" th:text="PutToStore" class="btn btn-success"></a>
             </td>
         </tr>
         </tbody>
@@ -43,6 +43,7 @@
 
 <a href="/products/new"> Create Product </a>
     </div>
+    </main>
 </section>
 </body>
 </html>

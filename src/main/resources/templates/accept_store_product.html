@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <section layout:fragment="content">
+        <div class="container-fluid">
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+        <div class="card">
+            <div class="card-header">
+                Featured
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Accept Product to Store</h5>
+                <ul class="card-text">
+                    <li th:text="${product.name}"></li>
+                    <li th:text="${product.price}"></li>
+                    <li th:text="${product.size}"></li>
+
+                </ul>
+                <div class="md-3">
+                    <form method="POST" action="/manage_store/accept_product" th:object="${storeProduct}">
+                        <input hidden type="text" name="productId" th:value="${product.id}"/>
+                        <select class="form-select" name="storeId" th:each="store : ${stores}">
+                            <option th:value="${store.id}" th:text="${store.name}"></option>
+                        </select>
+
+                        <input type="text" name="quantity" class="form-control"/>
+                        <input type="submit" class="btn btn-primary">
+                    </form>
+                </div>
+
+            </div>
+        </div>
+            </div>
+        </main>
+        </div>
+    </section>
+</body>
+</html>
