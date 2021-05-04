@@ -24,7 +24,7 @@ public class StoreManagementRepository {
 
     public List<StoreProduct> getAllProductsOnStore(){
         String sql= "select st.id as store_id, st.name as store_name,\n" +
-                "pr.id as product_id, pr.p_name as product_name, pr.price, pr.size,\n" +
+                "pr.id as product_id, pr.name as product_name, pr.price, pr.size,\n" +
                 "st_pr.id as store_product_id, st_pr.quantity\n" +
                 "from store_product st_pr\n" +
                 "inner join store st on st_pr.store_id = st.id\n" +
