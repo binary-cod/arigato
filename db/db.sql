@@ -18,7 +18,7 @@ create table address (
     address1 varchar(120),
     address2 varchar(120),
     city varchar(100),
-    ctate char(2),
+    state char(2),
     country char(2),
     zipCode varchar(100)
 );
