@@ -15,7 +15,7 @@
     <div class="container">
         <div class="row">
             <div class="col-sm">
-                <form th:action="@{/store}" method="POST" th:object="${store}">
+                <form th:action="@{/stores}" method="POST" th:object="${store}">
                     <label for="sid" class="form-label"> Store ID:</label><br>
                     <input type="text" id="sid" name="id" th:field="*{id}" class="form-control"><br>
                     <label for="sname" class="form-label">Store Name:</label><br>
