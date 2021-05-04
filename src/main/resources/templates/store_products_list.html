@@ -11,39 +11,35 @@
 </head>
 <body>
 <section layout:fragment="content">
-    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
-        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-            <h1 class="h2">List of Products in Store</h1>
+        <h1 class="h2">List of Products in Store</h1>
 
-            <table class="table">
-                <thead>
-                <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">Name of Store </th>
-                    <th scope="col">Product Name</th>
-                    <th scope="col">Price</th>
-                    <th scope="col">Size</th>
-                    <th scope="col">Quantity</th>
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Name of Store </th>
+                <th scope="col">Product Name</th>
+                <th scope="col">Price</th>
+                <th scope="col">Size</th>
+                <th scope="col">Quantity</th>
 
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="pIs : ${productInStore}">
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="pIs : ${productInStore}">
 
-                    <td th:text="${pIs.id}"></td>
-                    <td th:text="${pIs.store.name}"></td>
-                    <td th:text="${pIs.product.name}"></td>
-                    <td th:text="${pIs.product.price}"></td>
-                    <td th:text="${pIs.product.size}"></td>
-                    <td th:text="${pIs.quantity}"></td>
+                <td th:text="${pIs.id}"></td>
+                <td th:text="${pIs.store.name}"></td>
+                <td th:text="${pIs.product.name}"></td>
+                <td th:text="${pIs.product.price}"></td>
+                <td th:text="${pIs.product.size}"></td>
+                <td th:text="${pIs.quantity}"></td>
 
-                </tr>
-                </tbody>
-            </table>
+            </tr>
+            </tbody>
+        </table>
 
-            <a href="/products/new"> Create Product </a>
-        </div>
-    </main>
+        <a href="/products/new"> Create Product </a>
 </section>
 </body>
 </html>
