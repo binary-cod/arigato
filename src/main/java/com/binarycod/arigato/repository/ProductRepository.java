@@ -20,7 +20,7 @@ public class ProductRepository {
     }
 
     public void insertProduct(Product product){
-        String query = "INSERT INTO products(id,p_name,price,size) VALUES (?,?,?,?);";
+        String query = "INSERT INTO products(id,name,price,size) VALUES (?,?,?,?);";
         jdbcTemplate.update(query, product.getId(), product.getName(), product.getPrice(), product.getSize());
     }
 
@@ -46,7 +46,7 @@ public class ProductRepository {
    private RowMapper<Product> productRowMapper = (rs, rowNum) -> {
       Product p = new Product();
       p.setId(rs.getLong("id"));
-      p.setName(rs.getString("p_name"));
+      p.setName(rs.getString("name"));
       p.setPrice(rs.getDouble("price"));
       p.setSize(rs.getInt("size"));
       return p;
