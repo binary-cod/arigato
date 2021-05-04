@@ -11,24 +11,24 @@
 <body>
 <section layout:fragment="content">
 
-<h1>Create Product</h1>
-<div class="container">
-    <div class="row">
-        <div class="col-sm">
-            <form th:action="@{/products}" method="POST" th:object="${product}">
-                <label for="pid" class="form-label"> Product ID:</label><br>
-                <input type="text" id="pid" name="id" th:field="*{id}" class="form-control"><br>
-                <label for="pname" class="form-label">Product name:</label><br>
-                <input type="text" id="pname" name="name" th:field="*{name}" class="form-control"><br>
-                <label for="price" class="form-label">Product Price:</label><br>
-                <input type="text" id="price" name="price" th:field="*{price}" class="form-control"><br>
-                <label for="size" class="form-label">Product Size:</label><br>
-                <input type="text" id="size" name="size" th:field="*{size}" class="form-control"><br>
-                <input type="submit" value="Create" class="btn btn-success">
-            </form>
+    <h1>Create Product</h1>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm">
+                <form th:action="@{/products}" method="POST" th:object="${product}">
+                    <label for="pid" class="form-label"> Product ID:</label><br>
+                    <input type="text" id="pid" name="id" th:field="*{id}" class="form-control"><br>
+                    <label for="pname" class="form-label">Product name:</label><br>
+                    <input type="text" id="pname" name="name" th:field="*{name}" class="form-control"><br>
+                    <label for="price" class="form-label">Product Price:</label><br>
+                    <input type="text" id="price" name="price" th:field="*{price}" class="form-control"><br>
+                    <label for="size" class="form-label">Product Size:</label><br>
+                    <input type="text" id="size" name="size" th:field="*{size}" class="form-control"><br>
+                    <input type="submit" value="Create" class="btn btn-success">
+                </form>
+            </div>
         </div>
     </div>
-</div>
 </section>
 </body>
 </html>
