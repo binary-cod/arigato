@@ -1,6 +1,7 @@
 package com.binarycod.arigato.domain;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Store {
@@ -13,6 +14,10 @@ public class Store {
 
     @OneToOne(cascade = CascadeType.ALL)
     private Address address;
+
+    @ManyToMany
+    @JoinTable(name = "store_product")
+    private List<Product> product;
 
     public Store(){}
 

@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.Optional;
+
 
 @Controller
 @RequestMapping("/products")
@@ -33,56 +35,33 @@ public class ProductsController {
 
     @PostMapping
     public String createProduct(@RequestParam Long id, @RequestParam String name, @RequestParam Double price, @RequestParam Integer size){
-    //    productList.add(product);
         Product p = new Product (id, name, price, size);
-        productService.createProduct(p);
+        productService.createOrUpdateProduct(p);
         return "redirect:/products";
     }
 
     @GetMapping("/delete")
     public String deleteProduct(@RequestParam Long id){
-    /*    productList = productList
-                .stream()
-                .filter(p -> !p.getId().equals(id))
-                .collect(Collectors.toList());*/
 
+        productService.deleteProduct(id);
         return "redirect:/products";
     }
 
     @GetMapping("/edit")
     public String editProduct(@RequestParam Long id, Model model){
-     /*   Optional<Product> productOptional = productList
-                .stream()
-                .filter(p -> p.getId().equals(id))
-                .findFirst();
 
+        Optional<Product> productOptional = productService.getProductById(id);
         if (!productOptional.isPresent())
             return "redirect:/products";
 
-        model.addAttribute("product", productOptional.get());*/
-
+        model.addAttribute("product", productOptional.get());
         return "edit_product";
     }
 
     @PostMapping("/edit")
     public String saveProduct(Product product){
-     /*   Optional<Product> productOld = productList
-                .stream()
-                .filter(p -> p.getId().equals(product.getId()))
-                .findFirst();
 
-        if (productOld.isPresent()){
-            productList.remove(productOld.get());
-            productList.add(product);
-        }*/
-        /*
-        for (Product p: productList) {
-            if (p.getId().equals(product.getId()))
-                p.setName(product.getName());
-                p.setPrice(product.getPrice());
-                p.setSize(product.getSize());
-        }*/
-
+        productService.createOrUpdateProduct(product);
         return "redirect:/products";
     }
 }

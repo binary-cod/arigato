@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}">
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -7,21 +9,26 @@
 </head>
 <body>
 
-<a href="/">Home</a>
+<section layout:fragment="content">
 
-<h1>Edit Product.</h1>
-
-<form th:action="@{/products/edit}" method="POST" th:object="${product}">
-    <label for="pid">Product ID:</label><br>
-    <input type="text" id="pid" name="id" th:field="*{id}" readonly><br>
-    <label for="pname">Product name:</label><br>
-    <input type="text" id="pname" name="name" th:field="*{name}"><br>
-    <label for="price">Product Price:</label><br>
-    <input type="text" id="price" name="price" th:field="*{price}"><br>
-    <label for="size">Product Size:</label><br>
-    <input type="text" id="size" name="size" th:field="*{size}"><br>
-    <input type="submit" value="Save">
-</form>
-
+    <h1>Edit Product.</h1>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm">
+                <form th:action="@{/products/edit}" method="POST" th:object="${product}">
+                    <label for="pid" class="form-label">Product ID:</label><br>
+                    <input type="text" id="pid" name="id" th:field="*{id}" readonly class="form-control"><br>
+                    <label for="pname" class="form-label">Product name:</label><br>
+                    <input type="text" id="pname" name="name" th:field="*{name}" class="form-control"><br>
+                    <label for="price" class="form-label">Product Price:</label><br>
+                    <input type="text" id="price" name="price" th:field="*{price}" class="form-control"><br>
+                    <label for="size" class="form-label">Product Size:</label><br>
+                    <input type="text" id="size" name="size" th:field="*{size}" class="form-control"><br>
+                    <input type="submit" value="Save" class="btn btn-success">
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
 </body>
 </html>
