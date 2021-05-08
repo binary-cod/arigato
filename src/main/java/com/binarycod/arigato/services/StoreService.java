@@ -30,4 +30,5 @@ public class StoreService {
     public Optional<Store> getStoreById(Long id) {
         return storeRepository.findById(id);
     }
+
 }

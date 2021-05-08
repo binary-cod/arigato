@@ -44,4 +44,8 @@ public class Store {
     public void setAddress(Address address) {
         this.address = address;
     }
+
+    public List<Product> getProduct() {
+        return product;
+    }
 }
