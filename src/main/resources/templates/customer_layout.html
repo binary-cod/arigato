@@ -19,7 +19,9 @@
         <a class="p-2 text-dark" href="#">Shoes</a>
         <a class="p-2 text-dark" href="#">Support</a>
         <a class="p-2 text-dark" href="/admin" sec:authorize="hasAuthority('ADMIN')">Admin Dashboard</a>
+        <a class="p-2 text-dark" href="/customer/profile" sec:authorize="hasAuthority('USER')">User Profile</a>
     </nav>
+
     <a class="btn btn-outline-primary" href="/register" sec:authorize="!isAuthenticated()">Sign up</a>
     <a class="btn btn-outline-primary" href="/customer" sec:authorize="!isAuthenticated()">Login</a>
     <a class="btn btn-outline-primary" href="/logout" sec:authorize="isAuthenticated()">Sign out</a>

@@ -22,6 +22,9 @@ public class CustomUser implements UserDetails {
     @ManyToMany(fetch = FetchType.EAGER)
     Collection<Authority> authorities;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    UserProfile userProfile;
+
     public Long getId() {
         return id;
     }
@@ -104,5 +107,13 @@ public class CustomUser implements UserDetails {
 
     public void setAuthorities(Collection<Authority> authorities) {
         this.authorities = authorities;
+    }
+
+    public UserProfile getUserProfile() {
+        return userProfile;
+    }
+
+    public void setUserProfile(UserProfile userProfile) {
+        this.userProfile = userProfile;
     }
 }

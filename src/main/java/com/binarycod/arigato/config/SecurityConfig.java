@@ -18,12 +18,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     AuthService authService;
 
+    // authentication management
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth
                 .userDetailsService(authService)
                 .passwordEncoder(passwordEncoder());
     }
 
+    //HTTP filtering
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         // 1. for the endpoints /admin --> allow only roles ADMIN
