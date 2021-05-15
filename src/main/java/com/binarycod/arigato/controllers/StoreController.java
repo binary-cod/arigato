@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/stores")
+@RequestMapping("/admin/stores")
 public class StoreController {
 
     @Autowired

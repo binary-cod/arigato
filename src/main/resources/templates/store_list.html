@@ -30,14 +30,14 @@
             <td th:text="${s.name}"></td>
             <td th:text="${s.address.address1}"></td>
             <td>
-                <a th:href="@{/stores/delete(id=${s.id})}" th:text="Delete" class="btn btn-danger"></a> |
-                <a th:href="@{/stores/edit(id=${s.id})}" th:text="Edit" class="btn btn-primary"></a>
+                <a th:href="@{/admin/stores/delete(id=${s.id})}" th:text="Delete" class="btn btn-danger"></a> |
+                <a th:href="@{/admin/stores/edit(id=${s.id})}" th:text="Edit" class="btn btn-primary"></a>
             </td>
         </tr>
         </tbody>
     </table>
 
-    <a href="/stores" class="btn btn-primary"> Create Store</a>
+    <a href="/admin/stores" class="btn btn-primary"> Create Store</a>
 </section>
 </body>
 </html>

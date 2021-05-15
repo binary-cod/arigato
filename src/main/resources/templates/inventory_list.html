@@ -10,7 +10,7 @@
 <body>
 <section layout:fragment="content">
 
-    <a th:each="store : ${stores}"  th:href="@{/inventory/list(storeId=${store.id})}" th:text="${store.name}"></a>
+    <a th:each="store : ${stores}"  th:href="@{/admin/inventory/list(storeId=${store.id})}" th:text="${store.name}"></a>
 
     <table class="table" th:if = "${#bools.isFalse(isFirstTimeAccess)}">
     <thead>

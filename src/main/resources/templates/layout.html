@@ -11,7 +11,7 @@
     <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
     <ul class="navbar-nav px-3">
         <li class="nav-item text-nowrap">
-            <a class="nav-link" href="#">Sign out</a>
+            <a class="nav-link" href="/logout">Sign out</a>
         </li>
     </ul>
 </nav>
@@ -21,31 +21,31 @@
             <div class="sidebar-sticky">
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link active" href="#">
+                        <a class="nav-link active" href="/admin">
                             <span data-feather="home"></span>
                             Dashboard <span class="sr-only">(current)</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" th:href="@{/stores/list}">
+                        <a class="nav-link" th:href="@{/admin/stores/list}">
                             <span data-feather="file"></span>
                             Stores
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" th:href="@{/products}">
+                        <a class="nav-link" th:href="@{/admin/products}">
                             <span data-feather="shopping-cart"></span>
                             Products
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" th:href="@{/inventory/list(storeId=-1)}">
+                        <a class="nav-link" th:href="@{/admin/inventory/list(storeId=-1)}">
                             <span data-feather="layers"></span>
                             Products In Store
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" th:href="@{/orders}">
+                        <a class="nav-link" th:href="@{/admin/orders}">
                             <span data-feather="users"></span>
                             Orders
                         </a>

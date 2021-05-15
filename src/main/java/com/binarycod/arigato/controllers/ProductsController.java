@@ -14,7 +14,7 @@ import java.util.Optional;
 
 
 @Controller
-@RequestMapping("/products")
+@RequestMapping("/admin/products")
 public class ProductsController {
 
     @Autowired
@@ -37,14 +37,14 @@ public class ProductsController {
     public String createProduct(@RequestParam Long id, @RequestParam String name, @RequestParam Double price, @RequestParam Integer size){
         Product p = new Product (id, name, price, size);
         productService.createOrUpdateProduct(p);
-        return "redirect:/products";
+        return "redirect:/admin/products";
     }
 
     @GetMapping("/delete")
     public String deleteProduct(@RequestParam Long id){
 
         productService.deleteProduct(id);
-        return "redirect:/products";
+        return "redirect:/admin/products";
     }
 
     @GetMapping("/edit")
@@ -52,7 +52,7 @@ public class ProductsController {
 
         Optional<Product> productOptional = productService.getProductById(id);
         if (!productOptional.isPresent())
-            return "redirect:/products";
+            return "redirect:/admin/products";
 
         model.addAttribute("product", productOptional.get());
         return "edit_product";
@@ -62,6 +62,6 @@ public class ProductsController {
     public String saveProduct(Product product){
 
         productService.createOrUpdateProduct(product);
-        return "redirect:/products";
+        return "redirect:/admin/products";
     }
 }

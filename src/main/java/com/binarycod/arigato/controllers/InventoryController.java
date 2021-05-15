@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/inventory")
+@RequestMapping("/admin/inventory")
 public class InventoryController {
 
     @Autowired

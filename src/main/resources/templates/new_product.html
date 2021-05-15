@@ -15,7 +15,7 @@
     <div class="container">
         <div class="row">
             <div class="col-sm">
-                <form th:action="@{/products}" method="POST" th:object="${product}">
+                <form th:action="@{/admin/products}" method="POST" th:object="${product}">
                     <label for="pid" class="form-label"> Product ID:</label><br>
                     <input type="text" id="pid" name="id" th:field="*{id}" class="form-control"><br>
                     <label for="pname" class="form-label">Product name:</label><br>
