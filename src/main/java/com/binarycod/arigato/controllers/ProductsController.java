@@ -34,8 +34,10 @@ public class ProductsController {
     }
 
     @PostMapping
-    public String createProduct(@RequestParam Long id, @RequestParam String name, @RequestParam Double price, @RequestParam Integer size){
-        Product p = new Product (id, name, price, size);
+    public String createProduct(@RequestParam Long id, @RequestParam String name,
+                                @RequestParam Double price, @RequestParam Integer size,
+                                @RequestParam String imageUrl){
+        Product p = new Product (id, name, price, size, imageUrl);
         productService.createOrUpdateProduct(p);
         return "redirect:/admin/products";
     }

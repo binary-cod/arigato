@@ -15,7 +15,7 @@
         <div class="row">
             <div class="col-md-4" th:each="p: ${products}">
                 <div class="card mb-4 box-shadow" >
-                    <img class="card-img-top" th:src="@{/images/gettyimages1.jpg}" alt="Card image cap">
+                    <img class="card-img-top" th:src="${p.imageUrl}" alt="Card image cap">
                     <div class="card-body">
                         <p class="card-text">
                             <ul>
