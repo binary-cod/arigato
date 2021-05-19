@@ -12,9 +12,12 @@
 <body>
 <section layout:fragment="content">
     <h1 class="h2">Products</h1>
-   <div th:if="${message}">
+   <div class="alert alert-success" role="alert" th:if="${message}">
        <h2 th:text="${message}"></h2>
    </div>
+    <div class="alert alert-danger" role="alert" th:if="${error}">
+        <h2 th:text="${error}"></h2>
+    </div>
     <form method="POST" enctype="multipart/form-data" th:action="@{/admin/files}" class="input-group" accept="images/*">
         <input type="file" name="file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
         <button class="btn btn-outline-secondary" type="submit" id="inputGroupFileAddon04">Button</button>

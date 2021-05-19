@@ -31,11 +31,11 @@ public class FileHandlerController {
     public String uploadFiles(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes, Model model){
       //  System.out.println("content type "+file.getContentType());
         if (!file.getContentType().contains("image")){
-            redirectAttributes.addAttribute("message", "I accept only Images.");
+            redirectAttributes.addFlashAttribute("error", "I accept only Images.");
             return "redirect:/admin/files";
         }
         fileStorageService.store(file);
-        redirectAttributes.addAttribute("message", "Uploaded successfully");
+        redirectAttributes.addFlashAttribute("message", "Uploaded successfully");
         return "redirect:/admin/files";
     }
 }
