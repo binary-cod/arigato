@@ -21,6 +21,7 @@ public class FileHandlerController {
     @GetMapping
     public String showFilesAndUpload(Model model){
 
+
         model.addAttribute("files", fileStorageService.loadAll());
 
         return "file_list_upload";
@@ -30,12 +31,14 @@ public class FileHandlerController {
     @PostMapping
     public String uploadFiles(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes, Model model){
       //  System.out.println("content type "+file.getContentType());
-        if (!file.getContentType().contains("image")){
+        if (file.getContentType().contains("image")){
+            fileStorageService.store(file);
+            redirectAttributes.addFlashAttribute("message", "Uploaded successfully");
+        } else {
             redirectAttributes.addFlashAttribute("error", "I accept only Images.");
-            return "redirect:/admin/files";
         }
-        fileStorageService.store(file);
-        redirectAttributes.addFlashAttribute("message", "Uploaded successfully");
         return "redirect:/admin/files";
     }
+
+
 }

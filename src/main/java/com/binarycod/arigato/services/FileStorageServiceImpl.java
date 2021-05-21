@@ -2,12 +2,15 @@ package com.binarycod.arigato.services;
 
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -33,13 +36,31 @@ public class FileStorageServiceImpl implements FileStorageService{
 
         try {
             Files.copy(file.getInputStream(), uploadLocation, StandardCopyOption.REPLACE_EXISTING);
+            System.out.println("URI will be "+ buildUrl(file.getName()).getURI());
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    public Resource buildUrl(String filename){
+
+        Path file = Paths.get(storageLocation).resolve(filename);
+        try {
+            Resource resource = new UrlResource(file.toUri());
+            return resource;
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+
+    }
+
     @Override
     public Stream<Path> loadAll() {
-        return null;
+        Path root = Paths.get(storageLocation);
+        try {
+            return Files.walk(root, 1).filter(path -> !path.equals(root)).map(root :: relativize);
+        } catch (IOException e) {
+            throw new RuntimeException("Could not load files");
+        }
     }
 }
