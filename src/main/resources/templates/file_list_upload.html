@@ -23,6 +23,23 @@
         <button class="btn btn-outline-secondary" type="submit" id="inputGroupFileAddon04">Button</button>
     </form>
 
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Image</th>
+            <th scope="col">-</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr th:each="image : ${files}">
+                <td th:text="${image.name}"></td>
+                <td><img th:src="@{${image.link}}" class="img-thumbnail" width="200" height="200"></td>
+                <td><a class="btn btn-danger" th:href="@{/admin/files/delete(key=${image.name})}">Delete</a></td>
+            </tr>
+        </tbody>
+    </table>
+
 </section>
 
 </body>

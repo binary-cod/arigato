@@ -1,6 +1,6 @@
 package com.binarycod.arigato.controllers;
 
-import com.binarycod.arigato.services.FileStorageServiceImpl;
+import com.binarycod.arigato.services.AwsS3Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,27 +16,34 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class FileHandlerController {
 
     @Autowired
-    FileStorageServiceImpl fileStorageService;
+    AwsS3Service awsS3Service;
 
     @GetMapping
     public String showFilesAndUpload(Model model){
 
-
-        model.addAttribute("files", fileStorageService.loadAll());
+        model.addAttribute("files", awsS3Service.listAllImages());
 
         return "file_list_upload";
     }
 
 
     @PostMapping
-    public String uploadFiles(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes, Model model){
+    public String uploadFiles(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes){
       //  System.out.println("content type "+file.getContentType());
         if (file.getContentType().contains("image")){
-            fileStorageService.store(file);
+            awsS3Service.upload(file);
             redirectAttributes.addFlashAttribute("message", "Uploaded successfully");
         } else {
             redirectAttributes.addFlashAttribute("error", "I accept only Images.");
         }
+        return "redirect:/admin/files";
+    }
+
+    @GetMapping("/delete")
+    public String deleteImage(@RequestParam String key, RedirectAttributes redirectAttributes){
+        awsS3Service.delete(key);
+        redirectAttributes.addFlashAttribute("message", key+" is deleted successfully");
+
         return "redirect:/admin/files";
     }
 
