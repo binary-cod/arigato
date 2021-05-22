@@ -1,6 +1,13 @@
 package com.binarycod.arigato.domain;
 
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class Image {
+
+    @Id
     private String name;
     private String link;
 

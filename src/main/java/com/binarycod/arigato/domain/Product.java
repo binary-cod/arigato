@@ -1,9 +1,7 @@
 package com.binarycod.arigato.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Product {
@@ -15,17 +13,21 @@ public class Product {
     String name;
     Double price;
     Integer size;
-    String imageUrl;
+
+    @OneToMany
+    List<Image> images;
+
+    public List<Image> getImages() {
+        return images;
+    }
+
+    public void setImages(List<Image> images) {
+        this.images = images;
+    }
+
+
 
     public Product(){}
-
-    public Product(Long id, String name, Double price, Integer size, String imageUrl){
-        this.id = id;
-        this.name = name;
-        this.price = price;
-        this.size = size;
-        this.imageUrl = imageUrl;
-    }
 
     public java.lang.Long getId() {
         return id;
@@ -59,11 +61,5 @@ public class Product {
         this.size = size;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
-    }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
 }

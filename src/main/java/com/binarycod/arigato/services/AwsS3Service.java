@@ -1,6 +1,7 @@
 package com.binarycod.arigato.services;
 
 import com.binarycod.arigato.domain.Image;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import software.amazon.awssdk.auth.credentials.EnvironmentVariableCredentialsProvider;
@@ -18,8 +19,13 @@ import java.util.stream.Collectors;
 @Service
 public class AwsS3Service {
 
+    @Autowired
+    ImageService imageService;
+
     String bucketName = "arigatocommerce";
     S3Client s3Client;
+
+
 
     public AwsS3Service(){
         init();
@@ -46,6 +52,12 @@ public class AwsS3Service {
 
         s3Client.putObject(objectRequest,
                 RequestBody.fromFile(convertFromMultipart(file)));
+
+        //image is on db
+        Image image = new Image();
+        image.setName(key);
+        image.setLink("https://arigatocommerce.s3.eu-west-3.amazonaws.com/"+key);
+        imageService.create(image);
 
     }
 
@@ -83,6 +95,8 @@ public class AwsS3Service {
                 .build();
 
         s3Client.deleteObject(deleteObjectRequest);
+        imageService.deleteImage(key);
+
     }
     private File convertFromMultipart(MultipartFile multipartFile){
         File convertedFile = new File(multipartFile.getOriginalFilename());
