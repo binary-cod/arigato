@@ -22,17 +22,26 @@ public class AwsS3Service {
     @Autowired
     ImageService imageService;
 
+    //Name of the bucket on S3 storage
     String bucketName = "arigatocommerce";
+    
     S3Client s3Client;
-
-
 
     public AwsS3Service(){
         init();
     }
 
     private void init(){
-        Region region = Region.EU_WEST_3;
+	//Region where bucket is configured on. It will not connect if you not set correct Region
+
+	Region region = Region.EU_WEST_3;
+
+	/*
+	 * Here we are using environment credentials provide
+	 * do not forget to set environment variables on the terminal
+	 * export AWS_ACCESS_KEY_ID=xxxxx
+         * export AWS_SECRET_ACCESS_KEY=xxxxx
+	*/
         s3Client = S3Client
                 .builder()
                 .region(region)
@@ -50,10 +59,11 @@ public class AwsS3Service {
                 .key(key)
                 .build();
 
+	//before putting to cloud convert multipartFile to java File
         s3Client.putObject(objectRequest,
                 RequestBody.fromFile(convertFromMultipart(file)));
 
-        //image is on db
+        //Save image object into DB
         Image image = new Image();
         image.setName(key);
         image.setLink("https://arigatocommerce.s3.eu-west-3.amazonaws.com/"+key);
@@ -61,6 +71,10 @@ public class AwsS3Service {
 
     }
 
+    /*
+     * call method to Retreive s3objects and create Image objects
+     * the public link differs according to name of the bucket and Region
+     */
     public List<Image> listAllImages(){
         List<S3Object> s3ObjectList = listBucketObjects(s3Client, bucketName);
         return s3ObjectList
@@ -73,6 +87,9 @@ public class AwsS3Service {
                 }).collect(Collectors.toList());
     }
 
+    /*
+     * this method is where s3objects are being retreived
+     */
     private List<S3Object> listBucketObjects(S3Client s3Client, String bucketName) {
         try {
             ListObjectsRequest listObjectsRequest = ListObjectsRequest
@@ -98,6 +115,10 @@ public class AwsS3Service {
         imageService.deleteImage(key);
 
     }
+
+    /*
+     * the utility function to conver Spring multipartFile to Java File
+     */
     private File convertFromMultipart(MultipartFile multipartFile){
         File convertedFile = new File(multipartFile.getOriginalFilename());
         FileOutputStream fileOutputStream = null;
