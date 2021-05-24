@@ -18,7 +18,8 @@
                     <div class="row">
                         <div class="col-md-5 col-sm-12 col-xs-12">
                             <div class="product-image">
-                                <img th:src="${p.images[0].link}" width="194" height="228" class="img-responsive">
+                                <img th:unless=${#lists.isEmpty(p.images)} th:src="${p.images[0].link}" width="194" height="228" class="img-responsive">
+                                <img th:if=${#lists.isEmpty(p.images)} th:src="@{/images/No_image_available.svg.png}" width="194" height="228" class="img-responsive">
                                 <span class="tag2 hot">
 							HOT
 						</span>
