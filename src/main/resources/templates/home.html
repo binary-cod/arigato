@@ -43,7 +43,7 @@
                             <div class="product-info smart-form">
                                 <div class="row">
                                     <div class="col-md-6 col-sm-6 col-xs-6">
-                                        <a href="javascript:void(0);" class="btn btn-success">Add to cart</a>
+                                        <a th:href="@{/cart/add/{id}(id=${p.id})}" class="btn btn-success">Add to cart</a>
                                     </div>
                                     <div class="col-md-6 col-sm-6 col-xs-6">
                                         <div class="rating">
