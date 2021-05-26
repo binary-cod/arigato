@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}">
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello</title>
+
+</head>
+<body>
+<section layout:fragment="content">
+    <h1 class="h2">Stores</h1>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Address1</th>
+
+            <th scope="col">-</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="s : ${stores}">
+
+            <td th:text="${s.id}"></td>
+            <td th:text="${s.name}"></td>
+            <td th:text="${s.address.address1}"></td>
+            <td>
+                <a th:href="@{/admin/stores/delete(id=${s.id})}" th:text="Delete" class="btn btn-danger"></a> |
+                <a th:href="@{/admin/stores/edit(id=${s.id})}" th:text="Edit" class="btn btn-primary"></a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <a href="/admin/stores" class="btn btn-primary"> Create Store</a>
+</section>
+</body>
+</html>

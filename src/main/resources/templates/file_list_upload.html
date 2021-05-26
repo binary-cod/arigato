@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}">
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello</title>
+
+</head>
+<body>
+<section layout:fragment="content">
+    <h1 class="h2">Products</h1>
+   <div class="alert alert-success" role="alert" th:if="${message}">
+       <h3 th:text="${message}"></h3>
+   </div>
+    <div class="alert alert-danger" role="alert" th:if="${error}">
+        <h3 th:text="${error}"></h3>
+    </div>
+    <form method="POST" enctype="multipart/form-data" th:action="@{/admin/files}" class="input-group" accept="images/*">
+        <input type="file" name="file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
+        <button class="btn btn-outline-secondary" type="submit" id="inputGroupFileAddon04">Button</button>
+    </form>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Image</th>
+            <th scope="col">-</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr th:each="image : ${files}">
+                <td th:text="${image.name}"></td>
+                <td><img th:src="@{${image.link}}" class="img-thumbnail" width="200" height="200"></td>
+                <td><a class="btn btn-danger" th:href="@{/admin/files/delete(key=${image.name})}">Delete</a></td>
+            </tr>
+        </tbody>
+    </table>
+
+</section>
+
+</body>
+</html>

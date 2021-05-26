@@ -1,23 +1,33 @@
 package com.binarycod.arigato.domain;
 
+import javax.persistence.*;
+import java.util.List;
+
+@Entity
 public class Product {
 
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     Long id;
+
     String name;
     Double price;
     Integer size;
 
-    public Product(){
+    @OneToMany
+    List<Image> images;
+
+    public List<Image> getImages() {
+        return images;
     }
 
-    public Product(Long id, String name, Double price, Integer size){
-        this.id = id;
-        this.name = name;
-        this.price = price;
-        this.size = size;
+    public void setImages(List<Image> images) {
+        this.images = images;
     }
 
+
+
+    public Product(){}
 
     public java.lang.Long getId() {
         return id;
@@ -50,4 +60,6 @@ public class Product {
     public void setSize(Integer size) {
         this.size = size;
     }
+
+
 }

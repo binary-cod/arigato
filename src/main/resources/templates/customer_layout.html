@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Layout page</title>
+    <link th:rel="stylesheet" th:href="@{~/webjars/bootstrap/4.4.1/css/bootstrap.min.css}">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+    <link th:href="@{/styles/album.css}" rel="stylesheet"/>
+</head>
+<body>
+<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
+    <h5 class="my-0 mr-md-auto font-weight-normal">Arigato Jeans</h5>
+    <nav class="my-2 my-md-0 mr-md-3">
+        <a class="p-2 text-dark" href="#">Jeans</a>
+        <a class="p-2 text-dark" href="#">Shoes</a>
+        <a class="p-2 text-dark" href="#">Support</a>
+        <a class="p-2 text-dark" href="/admin" sec:authorize="hasAuthority('ADMIN')">Admin Dashboard</a>
+        <a class="p-2 text-dark" href="/customer/profile" sec:authorize="hasAuthority('USER')">User Profile</a>
+    </nav>
+
+    <a class="btn btn-outline-primary" href="/register" sec:authorize="!isAuthenticated()">Sign up</a>
+    <a class="btn btn-outline-primary" href="/customer" sec:authorize="!isAuthenticated()">Login</a>
+    <a class="btn btn-outline-primary" href="/logout" sec:authorize="isAuthenticated()">Sign out</a>
+</div>
+<main role="main">
+    <section layout:fragment="content">
+        <p>Page content goes here</p>
+    </section>
+</main>
+<script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/4.4.1/js/bootstrap.min.js}"></script>
+</body>
+</html>
+
+</body>
+</html>
