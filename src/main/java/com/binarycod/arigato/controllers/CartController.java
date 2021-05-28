@@ -2,9 +2,11 @@ package com.binarycod.arigato.controllers;
 
 import com.binarycod.arigato.domain.Cart;
 import com.binarycod.arigato.domain.CartItem;
+import com.binarycod.arigato.domain.CustomUser;
 import com.binarycod.arigato.domain.Product;
 import com.binarycod.arigato.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -46,11 +48,6 @@ public class CartController {
         return "redirect:/";
     }
 
-    @GetMapping("/checkout")
-    public String checkoutItems(@ModelAttribute("cart") Cart cart){
-        cart.getCartItemList().forEach(ci -> System.out.println(ci.getProduct().getName()+" "+ci.getTotalPrice()));
-        return "redirect:/";
-    }
 
     @GetMapping("/details")
     public String showDetails(@ModelAttribute("cart") Cart cart, Model model){
@@ -72,6 +69,14 @@ public class CartController {
         cart.removeItem(UUID.fromString(id));
         return "redirect:/cart/details";
     }
+
+    @GetMapping("/checkout")
+    public String cartCheckout(Authentication authentication, @ModelAttribute("cart") Cart cart){
+        if (authentication.isAuthenticated())
+            cart.setOwner((CustomUser) authentication.getPrincipal());
+        return "redirect:/cart/details";
+    }
+
     @ModelAttribute("cart")
     public Cart cart(){
         return new Cart();

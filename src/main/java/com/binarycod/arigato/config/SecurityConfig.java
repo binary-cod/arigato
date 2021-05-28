@@ -36,6 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/admin/**").hasAuthority("ADMIN")
                 .antMatchers("/customer/**").hasAuthority("USER")
+                .antMatchers("/cart/checkout/**").hasAuthority("USER")
                 .antMatchers("/", "/login", "/register","/**").permitAll()
                 .and()
                 .formLogin()
