@@ -6,6 +6,7 @@ import com.binarycod.arigato.domain.Product;
 import com.binarycod.arigato.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -35,11 +36,9 @@ public class CartController {
         CartItem cartItem = new CartItem(p, 1, p.getPrice() * 1);
 
         if (cart.getUuid() == null) {
-            System.out.println("cart is new I am generating and adding item to it!");
             cart.setUuid(UUID.randomUUID());
             cart.getCartItemList().add(cartItem);
         } else {
-            System.out.println("cart exists I am just adding item to it!");
             cart.getCartItemList().add(cartItem);
         }
 
@@ -49,8 +48,14 @@ public class CartController {
     @GetMapping("/checkout")
     public String checkoutItems(@ModelAttribute("cart") Cart cart){
         cart.getCartItemList().forEach(ci -> System.out.println(ci.getProduct().getName()+" "+ci.getTotalPrice()));
-
         return "redirect:/";
+    }
+
+    @GetMapping("/details")
+    public String showDetails(@ModelAttribute("cart") Cart cart, Model model){
+
+        model.addAttribute("cartItems", cart.getGroupedItems());
+        return "cart_details";
     }
 
     @ModelAttribute("cart")
