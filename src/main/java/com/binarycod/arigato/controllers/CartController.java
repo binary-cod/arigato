@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -53,11 +54,24 @@ public class CartController {
 
     @GetMapping("/details")
     public String showDetails(@ModelAttribute("cart") Cart cart, Model model){
+        List<CartItem> cartItems = cart.getGroupedItems();
+        if (cartItems.size() == 0)
+            return "redirect:/";
 
-        model.addAttribute("cartItems", cart.getGroupedItems());
+        Optional<Double> totalPrice = cartItems
+                .stream()
+                .map(cartItem -> cartItem.getTotalPrice())
+                .reduce((aDouble, aDouble2) -> (aDouble + aDouble2));
+        model.addAttribute("cartItems", cartItems);
+        model.addAttribute("totalPrice", totalPrice.get());
         return "cart_details";
     }
 
+    @GetMapping("/items/delete/{id}")
+    public String deleteItemFromCard(@PathVariable String id, @ModelAttribute("cart") Cart cart){
+        cart.removeItem(UUID.fromString(id));
+        return "redirect:/cart/details";
+    }
     @ModelAttribute("cart")
     public Cart cart(){
         return new Cart();
