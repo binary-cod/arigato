@@ -34,9 +34,19 @@
                     <td>in stock</td>
                     <td th:text="${item.quantity}"></td>
                     <td th:text="${item.totalPrice}"></td>
-                    <td><a class="btn btn-danger" th:href="@{/cart/items/delete{uuid}(item.id)}">Remove</a></td>
+                    <td><a class="btn btn-danger" th:href="@{/cart/items/delete/{id}(id=${item.uuid})}">Remove</a></td>
                 </tr>
             </tbody>
+                <tfoot>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>Total Price: </td>
+                        <td th:text="${totalPrice}"> </td>
+                        <td><a class="btn btn-success" th:href="@{/cart/checkout}">Checkout</a></td>
+                    </tr>
+                </tfoot>
         </table>
     </div>
 </section>
