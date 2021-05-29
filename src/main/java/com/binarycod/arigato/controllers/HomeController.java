@@ -1,6 +1,8 @@
 package com.binarycod.arigato.controllers;
 
 import com.binarycod.arigato.domain.Product;
+import com.binarycod.arigato.domain.Store;
+import com.binarycod.arigato.services.InventoryService;
 import com.binarycod.arigato.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,9 +18,12 @@ public class HomeController {
     @Autowired
     ProductService productService;
 
+    @Autowired
+    InventoryService inventoryService;
+
     @GetMapping("/")
     public String getHome(Model model){
-        model.addAttribute("products", productService.getAllProducts());
+        model.addAttribute("products", inventoryService.getProductsListOfGivenStore(Store.TYPE.ONLINE));
         return "home";
     }
 

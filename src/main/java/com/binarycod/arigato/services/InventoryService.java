@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class InventoryService {
@@ -56,4 +57,13 @@ public class InventoryService {
     public List<Inventory> getProductList(Long storeId) {
         return inventoryRepository.getInventoryByStoreId(storeId);
     }
+
+    public List<Product> getProductsListOfGivenStore(Store.TYPE storeType){
+        return inventoryRepository.getInventoryByStoreStoreType(storeType)
+                .stream()
+                .filter(inventory -> inventory.getQuantity() > 0)
+                .map(inventory -> inventory.getProduct())
+                .collect(Collectors.toList());
+    }
+
 }

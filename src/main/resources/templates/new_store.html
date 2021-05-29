@@ -15,10 +15,13 @@
     <div class="container">
         <div class="row">
             <div class="col-sm">
-                <form th:action="@{/stores}" method="POST" th:object="${store}">
+                <form th:action="@{/admin/stores}" method="POST" th:object="${store}">
                     <input hidden type="text" id="sid" name="id" th:field="*{id}" class="form-control"><br>
                     <label for="sname" class="form-label">Store Name:</label><br>
                     <input type="text" id="sname" name="name" th:field="*{name}" class="form-control"><br>
+                    <select class="form-control" th:field="*{storeType}">
+                        <option th:value="${type}" th:each="type : ${types}" th:text="${type}"></option>
+                    </select>
                     <input hidden type="text" id="addressId" name="id" th:field="*{address.id}"/>
                     <div class="col-12">
                         <label for="inputAddress" class="form-label">Address</label>
@@ -46,6 +49,7 @@
                         <label for="inputZip" class="form-label">Zip</label>
                         <input type="text" class="form-control" id="inputZip" th:field="*{address.zipCode}">
                     </div>
+
 
                     <input type="submit" value="Create" class="btn btn-success">
                 </form>
