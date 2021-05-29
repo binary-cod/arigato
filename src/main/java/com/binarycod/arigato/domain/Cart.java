@@ -1,9 +1,7 @@
 package com.binarycod.arigato.domain;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class Cart {
 
@@ -45,32 +43,39 @@ public class Cart {
         this.totalPrice = totalPrice;
     }
 
-    public void addItem(CartItem cartItem){
-        //check if item exists
-        // if exists update it
-        // else insert it
-        if (containsItem(cartItem.getUuid())){
-            Optional<CartItem> oldItemOptional = cartItemList.stream()
-                    .filter(ci -> ci.getUuid().equals(cartItem.getUuid()))
-                    .findFirst();
-
-            if (oldItemOptional.isPresent()) {
-                CartItem oldItem = oldItemOptional.get();
-                cartItemList.remove(oldItem);
-                oldItem.setQuantity(oldItem.getQuantity() + cartItem.getQuantity());
-                cartItemList.add(oldItem);
-            }
-
-        } else {
-            cartItemList.add(cartItem);
-        }
-    }
-
     public Boolean containsItem(UUID uuid){
         Optional<CartItem> item = cartItemList
                 .stream()
                 .filter(cartItem -> cartItem.getUuid().equals(uuid))
                 .findFirst();
         return item.isPresent();
+    }
+
+    public List<CartItem> getGroupedItems(){
+           Map<String, CartItem> groupedMap = new HashMap<>();
+           for (CartItem item: cartItemList) {
+               if (groupedMap.containsKey(item.getProduct().getName())){
+                   CartItem oldItem = groupedMap.get(item.getProduct().getName());
+                   oldItem.setQuantity(oldItem.getQuantity() + item.getQuantity());
+                   oldItem.setTotalPrice(oldItem.getTotalPrice() + item.getTotalPrice());
+                   groupedMap.put(item.getProduct().getName(), oldItem);
+               } else {
+                 groupedMap.put(item.getProduct().getName(), item);
+               }
+           }
+           return new ArrayList<CartItem>(groupedMap.values());
+    }
+
+    @Override
+    public String toString() {
+        return ""+cartItemList.size();
+
+    }
+
+    public void removeItem(UUID uuid) {
+        cartItemList = cartItemList
+                .stream()
+                .filter(cartItem -> !cartItem.getUuid().equals(uuid))
+                .collect(Collectors.toList());
     }
 }

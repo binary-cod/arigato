@@ -14,7 +14,7 @@ public class Product {
     Double price;
     Integer size;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     List<Image> images;
 
     public List<Image> getImages() {
