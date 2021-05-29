@@ -25,7 +25,7 @@
 
                         </ul>
                         <div class="md-3">
-                            <form method="POST" action="/inventory/accept_product">
+                            <form method="POST" action="/admin/inventory/accept_product">
                                 <input hidden type="text" name="productId" th:value="${product.id}"/>
                                 <select class="form-select" name="storeId" >
                                     <option th:each="store : ${stores}" th:value="${store.id}" th:text="${store.name}"></option>

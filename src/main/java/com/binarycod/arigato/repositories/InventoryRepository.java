@@ -15,4 +15,6 @@ public interface InventoryRepository extends JpaRepository<Inventory, Long> {
     public List<Inventory> getInventoryByStoreId(Long storeId);
 
     public Optional<Inventory> findInventoryByProductAndStore(Product product, Store store);
+
+    List<Inventory> getInventoryByStoreStoreType(Store.TYPE storeType);
 }
