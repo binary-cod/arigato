@@ -29,13 +29,14 @@ public class StoreController {
     @GetMapping
     public String newStore(Model model){
         model.addAttribute("store", new Store());
+        model.addAttribute("types", Store.TYPE.values());
         return "new_store";
     }
 
     @PostMapping
     public String createStore(Store store){
         storeService.createOrUpdateStore(store);
-        return "redirect:/stores/list";
+        return "redirect:/admin/stores/list";
     }
 
     @GetMapping("/edit")
@@ -43,7 +44,7 @@ public class StoreController {
         Optional<Store> optionalStore = storeService.getStoreById(id);
 
         if (!optionalStore.isPresent())
-            return "redirect:/stores/list";
+            return "redirect:/admin/stores/list";
 
         model.addAttribute("store", optionalStore.get());
         return "new_store";
@@ -52,6 +53,6 @@ public class StoreController {
     @GetMapping("/delete")
     public String deleteStore(@RequestParam Integer id) {
         storeService.deleteStore(id);
-        return "redirect:/stores/list";
+        return "redirect:/admin/stores/list";
     }
 }

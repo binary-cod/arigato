@@ -19,7 +19,7 @@
             <th scope="col">ID</th>
             <th scope="col">Name</th>
             <th scope="col">Address1</th>
-
+            <th scope="col">StoreType</th>
             <th scope="col">-</th>
         </tr>
         </thead>
@@ -29,6 +29,7 @@
             <td th:text="${s.id}"></td>
             <td th:text="${s.name}"></td>
             <td th:text="${s.address.address1}"></td>
+            <td th:text="${s.storeType}"></td>
             <td>
                 <a th:href="@{/admin/stores/delete(id=${s.id})}" th:text="Delete" class="btn btn-danger"></a> |
                 <a th:href="@{/admin/stores/edit(id=${s.id})}" th:text="Edit" class="btn btn-primary"></a>
