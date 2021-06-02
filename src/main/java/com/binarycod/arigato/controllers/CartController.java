@@ -5,7 +5,17 @@ import com.binarycod.arigato.domain.CartItem;
 import com.binarycod.arigato.domain.CustomUser;
 import com.binarycod.arigato.domain.Product;
 import com.binarycod.arigato.services.ProductService;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.stripe.Stripe;
+import com.stripe.exception.StripeException;
+import com.stripe.model.PaymentIntent;
+import com.stripe.param.PaymentIntentCreateParams;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,6 +33,14 @@ public class CartController {
     @Autowired
     ProductService productService;
 
+    @Value("${stripe.keys.public}")
+    private String stripePublicKey;
+
+    @Value("${stripe.keys.secret}")
+    private String stripeSecretKey;
+
+    PaymentIntent intent;
+    private Gson gson = new Gson();
     @GetMapping
     public String getCart(@ModelAttribute("cart") Cart cart){
         return "redirect:/";
@@ -55,12 +73,9 @@ public class CartController {
         if (cartItems.size() == 0)
             return "redirect:/";
 
-        Optional<Double> totalPrice = cartItems
-                .stream()
-                .map(cartItem -> cartItem.getTotalPrice())
-                .reduce((aDouble, aDouble2) -> (aDouble + aDouble2));
+
         model.addAttribute("cartItems", cartItems);
-        model.addAttribute("totalPrice", totalPrice.get());
+        model.addAttribute("totalPrice", cart.getCartTotalPrice().get());
         return "cart_details";
     }
 
@@ -71,10 +86,45 @@ public class CartController {
     }
 
     @GetMapping("/checkout")
-    public String cartCheckout(Authentication authentication, @ModelAttribute("cart") Cart cart){
+    public String cartCheckout(Authentication authentication,
+                               @ModelAttribute("cart") Cart cart,
+                               Model model){
+
         if (authentication.isAuthenticated())
             cart.setOwner((CustomUser) authentication.getPrincipal());
-        return "redirect:/cart/details";
+        else
+            return "redirect:/login";
+
+
+        CustomUser owner = (CustomUser) authentication.getPrincipal();
+        model.addAttribute("userProfile", owner.getUserProfile());
+        model.addAttribute("totalPrice", cart.getCartTotalPrice().get());
+
+        return "checkout_with_stripe";
+    }
+
+    @PostMapping("create-payment-intent")
+    public ResponseEntity<String> createPaymentIntent(Model model,
+                                                      @ModelAttribute("cart") Cart cart,
+                                                      Authentication authentication) {
+        Stripe.apiKey = stripeSecretKey;
+
+        PaymentIntentCreateParams createParams = new PaymentIntentCreateParams.Builder()
+                .setCurrency("usd")
+                .setAmount((long) (cart.getCartTotalPrice().get() * 100))
+                .build();
+
+        try {
+            intent = PaymentIntent.create(createParams);
+        } catch (StripeException e) {
+            e.printStackTrace();
+        }
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json; charset=utf-8");
+        String json = "{\"clientSecret\":\""+ intent.getClientSecret() +"\"}";
+        JsonObject convertedObject = new Gson().fromJson(json, JsonObject.class);
+        return new ResponseEntity<String>(String.valueOf(convertedObject), headers, HttpStatus.OK);
     }
 
     @ModelAttribute("cart")
