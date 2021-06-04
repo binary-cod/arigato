@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{customer_layout.html}">
+<html lang="en">
+<!-- CSS only -->
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <link th:href="@{/styles/shop.css}" rel="stylesheet"/>
+</head>
+<body>
+<section layout:fragment="content">
+    <div class="container">
+        <h2>Order List</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Order Placed At</th>
+                    <th>Order Status</th>
+                    <th>-</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="order: ${orders}">
+                    <td th:text="${order.createdAt}"></td>
+                    <td th:text="${order.status}"></td>
+                    <td><a th:href="@{/order/details/{id}(id=${order.id})}"> Details</a> </td>
+                </tr>
+            </tbody>
+            <tfoot></tfoot>
+        </table>
+    </div>
+</section>
+
+</body>
+</html>
