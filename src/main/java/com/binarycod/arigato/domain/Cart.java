@@ -66,6 +66,13 @@ public class Cart {
            return new ArrayList<CartItem>(groupedMap.values());
     }
 
+    public Optional<Double> getCartTotalPrice(){
+        return cartItemList
+                .stream()
+                .map(cartItem -> cartItem.getTotalPrice())
+                .reduce((aDouble, aDouble2) -> (aDouble + aDouble2));
+    }
+
     @Override
     public String toString() {
         return ""+cartItemList.size();
