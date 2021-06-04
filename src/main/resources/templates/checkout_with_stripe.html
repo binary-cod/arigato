@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{customer_layout.html}">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <link th:href="@{/styles/shop.css}" rel="stylesheet"/>
+    <script src="https://polyfill.io/v3/polyfill.min.js?version=3.52.1&features=fetch"></script>
+    <script src="https://js.stripe.com/v3/"></script>
+    <script src="/scripts/client.js" defer></script>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="row">
+        <div class="col">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th></th>
+                    <th>Product</th>
+                    <th>Availability</th>
+                    <th>Quantity</th>
+                    <th>Sub Total Price</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="item : ${session.cart.cartItemList}">
+                    <td>
+                        <img th:unless=${#lists.isEmpty(item.product.images)} th:src="${item.product.images[0].link}" width="50" height="50" class="img-responsive">
+                        <img th:if=${#lists.isEmpty(item.product.images)} th:src="@{/images/No_image_available.svg.png}" width="50" height="50" class="img-responsive">
+                    </td>
+                    <td th:text="${item.product.name}"></td>
+                    <td>in stock</td>
+                    <td th:text="${item.quantity}"></td>
+                    <td th:text="${item.totalPrice}"></td>
+                </tr>
+                </tbody>
+                <tfoot>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>Total Price: </td>
+                    <td th:text="${totalPrice}"> </td>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+        <div class="col">
+            <div class="card" style="width: 18rem;">
+                <div class="card-header">
+                    Shipment Address
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item" th:text="${userProfile.firstName} +' '+${userProfile.lastName}"></li>
+                    <li class="list-group-item" th:text="${userProfile.address.address1}"></li>
+                    <li class="list-group-item" th:text="${userProfile.address.address2}"></li>
+                    <li class="list-group-item" th:text="${userProfile.address.city}"></li>
+                    <li class="list-group-item" th:text="${userProfile.address.state}"></li>
+                    <li class="list-group-item" th:text="${userProfile.address.country}"></li>
+                    <li class="list-group-item" th:text="${userProfile.address.zipCode}"></li>
+                </ul>
+            </div>
+        </div>
+        <div class="col">
+            <form id="payment-form">
+
+                <div id="card-element"><!--Stripe.js injects the Card Element--></div>
+
+                <button id="submit">
+
+                    <div class="spinner hidden" id="spinner"></div>
+
+                    <span id="button-text">Pay now</span>
+
+                </button>
+
+                <p id="card-error" role="alert"></p>
+
+                <p class="result-message hidden">
+
+                    Payment succeeded, see the result in your
+
+                    <a href="" target="_blank">Stripe dashboard.</a> Refresh the page to pay again.
+
+                </p>
+
+            </form>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

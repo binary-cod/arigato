@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{customer_layout.html}">
+<html lang="en">
+<!-- CSS only -->
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <link th:href="@{/styles/shop.css}" rel="stylesheet"/>
+</head>
+<body>
+<section layout:fragment="content">
+    <div class="container">
+        <h2>Shopping cart details</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Product</th>
+                    <th>Availability</th>
+                    <th>Quantity</th>
+                    <th>Sub Total Price</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="item : ${cartItems}">
+                    <td>
+                        <img th:unless=${#lists.isEmpty(item.product.images)} th:src="${item.product.images[0].link}" width="50" height="50" class="img-responsive">
+                        <img th:if=${#lists.isEmpty(item.product.images)} th:src="@{/images/No_image_available.svg.png}" width="50" height="50" class="img-responsive">
+                    </td>
+                    <td th:text="${item.product.name}"></td>
+                    <td>in stock</td>
+                    <td th:text="${item.quantity}"></td>
+                    <td th:text="${item.totalPrice}"></td>
+                    <td><a class="btn btn-danger" th:href="@{/cart/items/delete/{id}(id=${item.uuid})}">Remove</a></td>
+                </tr>
+            </tbody>
+                <tfoot>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>Total Price: </td>
+                        <td th:text="${totalPrice}"> </td>
+                        <td><a class="btn btn-success" th:href="@{/cart/checkout}">Checkout</a></td>
+                    </tr>
+                </tfoot>
+        </table>
+    </div>
+</section>
+</body>
+</html>
