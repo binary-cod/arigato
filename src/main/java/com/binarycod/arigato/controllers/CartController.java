@@ -48,18 +48,26 @@ public class CartController {
 
     @GetMapping("/add/{id}")
     public String addItemToCart(@PathVariable Long id, @ModelAttribute("cart") Cart cart){
+        //1. checking if product exists, if not redirects to "/"
         Optional<Product> optionalProduct = productService.getProductById(id);
-
         if (!optionalProduct.isPresent())
             return "redirect:/";
-
-        Product p = optionalProduct.get();
-        CartItem cartItem = new CartItem(p, 1, p.getPrice() * 1);
-
+        //2. checking if cart exist?
         if (cart.getUuid() == null) {
             cart.setUuid(UUID.randomUUID());
-            cart.getCartItemList().add(cartItem);
-        } else {
+        }
+        //3. checking if cartItem with same product exist in cart, in order not to duplicate
+        boolean match=false;
+        for( CartItem cartItem: cart.getCartItemList()){
+            if(cartItem.getProduct().getId()==id){
+                match=true;
+                cartItem.setQuantity(cartItem.getQuantity()+1);
+                cartItem.setTotalPrice(cartItem.getTotalPrice() + cartItem.getProduct().getPrice());
+            }
+        }
+        if(!match){
+            Product p = optionalProduct.get();
+            CartItem cartItem = new CartItem(p, 1, p.getPrice() * 1);
             cart.getCartItemList().add(cartItem);
         }
 
@@ -69,13 +77,16 @@ public class CartController {
 
     @GetMapping("/details")
     public String showDetails(@ModelAttribute("cart") Cart cart, Model model){
-        List<CartItem> cartItems = cart.getGroupedItems();
+        List<CartItem> cartItems = cart.getCartItemList();
         if (cartItems.size() == 0)
             return "redirect:/";
 
-
+        Optional<Double> totalPrice = cartItems
+                .stream()
+                .map(cartItem -> cartItem.getTotalPrice())
+                .reduce((aDouble, aDouble2) -> (aDouble + aDouble2));
         model.addAttribute("cartItems", cartItems);
-        model.addAttribute("totalPrice", cart.getCartTotalPrice().get());
+        model.addAttribute("totalPrice", totalPrice.get());
         return "cart_details";
     }
 
