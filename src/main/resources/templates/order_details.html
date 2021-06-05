@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{customer_layout.html}">
+<html lang="en">
+<!-- CSS only -->
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+
+</head>
+<body>
+<section layout:fragment="content">
+    <div class="container">
+        <h2>Order Details</h2>
+        <ul>
+            <li th:text="'Created at ' + ${order.createdAt}"></li>
+            <li th:text="'Status is ' + ${order.status}"></li>
+        </ul>
+       <div class="row">
+           <div class="col">
+               <table class="table">
+                   <thead>
+                   <tr>
+                       <th>-</th>
+                       <th>Product</th>
+                       <th>Price</th>
+                       <th>Size</th>
+                       <th>Quantity</th>
+                       <th>Sub-Total Price</th>
+                   </tr>
+                   </thead>
+                   <tbody>
+                   <tr th:each="item: ${order.orderItems}">
+                       <td>
+                           <img th:unless=${#lists.isEmpty(item.product.images)}
+                                th:src="${item.product.images[0].link}"
+                                class="img-thumbnail"
+                                width="150" height="150">
+                           <img th:if=${#lists.isEmpty(item.product.images)}
+                                th:src="@{/images/No_image_available.svg.png}"
+                                class="img-thumbnail"
+                                width="150" height="150">
+                       </td>
+                       <td th:text="${item.product.name}"></td>
+                       <td th:text="${item.product.price}"></td>
+                       <td th:text="${item.product.size}"></td>
+                       <td th:text="${item.quantity}"></td>
+                       <td th:text="${item.totalPrice}"></td>
+                   </tr>
+                   </tbody>
+                   <tfoot>
+                   <tr>
+                       <td></td>
+                       <td></td>
+                       <td></td>
+                       <td></td>
+                       <td></td>
+                       <td th:text="${order.orderTotalPrice}"></td>
+                   </tr>
+                   </tfoot>
+               </table>
+           </div>
+           <div class="col">
+               <div class="card" style="width: 18rem;">
+                   <div class="card-header">
+                       Shipment Address
+                   </div>
+                   <ul class="list-group list-group-flush">
+                       <li class="list-group-item" th:text="${userProfile.firstName} +' '+${userProfile.lastName}"></li>
+                       <li class="list-group-item" th:text="${userProfile.address.address1}"></li>
+                       <li class="list-group-item" th:text="${userProfile.address.address2}"></li>
+                       <li class="list-group-item" th:text="${userProfile.address.city}"></li>
+                       <li class="list-group-item" th:text="${userProfile.address.state}"></li>
+                       <li class="list-group-item" th:text="${userProfile.address.country}"></li>
+                       <li class="list-group-item" th:text="${userProfile.address.zipCode}"></li>
+                   </ul>
+               </div>
+           </div>
+       </div>
+    </div>
+</section>
+
+</body>
+</html>

@@ -9,14 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Controller
+@SessionAttributes("cart")
 @RequestMapping("/order")
 public class OrderController {
 
@@ -52,10 +52,22 @@ public class OrderController {
 
         );
         order.setStatus(Order.STATUS.NEW);
-
         orderService.placeAnOrder(order);
-        //TODO- empt cart Items
+
+        cart.emptyCart();
+
         return "redirect:/order/list";
+    }
+
+    @GetMapping("/details/{id}")
+    public String showOrderDetails(@PathVariable Long id, Model model){
+        Optional<Order> optionalOrder = orderService.findById(id);
+        if (!optionalOrder.isPresent()){
+            return "redirect:/order/list";
+        }
+        model.addAttribute("order", optionalOrder.get());
+        model.addAttribute("userProfile", optionalOrder.get().getOwner().getUserProfile());
+        return "order_details";
     }
 
 }

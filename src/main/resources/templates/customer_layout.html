@@ -21,6 +21,7 @@
         <a class="p-2 text-dark" href="#">Support</a>
         <a class="p-2 text-dark" href="/admin" sec:authorize="hasAuthority('ADMIN')">Admin Dashboard</a>
         <a class="p-2 text-dark" href="/customer/profile" sec:authorize="hasAuthority('USER')">User Profile</a>
+        <a class="p-2 text-dark" href="/order/list" sec:authorize="hasAuthority('USER')">My Orders</a>
     </nav>
 
 

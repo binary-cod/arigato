@@ -25,7 +25,7 @@ public class Order {
 
     private STATUS status;
 
-    @OneToMany(cascade = CascadeType.PERSIST)
+    @OneToMany(cascade = CascadeType.ALL)
     List<OrderItem> orderItems;
 
     public Order(){}
@@ -68,5 +68,12 @@ public class Order {
 
     public void setOrderItems(List<OrderItem> orderItems) {
         this.orderItems = orderItems;
+    }
+
+    public Double orderTotalPrice(){
+        return orderItems
+                .stream()
+                .map(orderItem -> orderItem.totalPrice)
+                .reduce((aDouble, aDouble2) -> aDouble + aDouble2).orElse(0.0);
     }
 }
