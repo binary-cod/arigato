@@ -11,4 +11,6 @@ import java.util.List;
 public interface OrderRepository extends JpaRepository<Order, Long> {
     List<Order> getOrderByOwner(CustomUser owner);
     List<Order> getOrderByOwnerAndStatus(CustomUser owner, Order.STATUS status);
+
+    List<Order> getOrderByStatus(Order.STATUS status);
 }

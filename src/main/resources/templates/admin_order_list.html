@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layout.html}">
+<html lang="en">
+<!-- CSS only -->
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+</head>
+<body>
+<section layout:fragment="content">
+    <div class="container">
+        <h2>Order List</h2>
+
+        <div class="row">
+            <a class="btn btn-outline-primary" th:href="@{/admin/orders/list/{status}(status=NEW)}">New</a>
+            <a class="btn btn-outline-success" th:href="@{/admin/orders/list/{status}(status=INPROGRESS)}">InProgress</a>
+            <a class="btn btn-outline-danger" th:href="@{/admin/orders/list/{status}(status=COMPLETED)}">Completed</a>
+        </div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Order Placed At</th>
+                <th>Order Status</th>
+                <th>Owner</th>
+                <th>-</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="order: ${orders}">
+                <td th:text="${order.createdAt}"></td>
+                <td th:text="${order.status}"></td>
+                <td>
+                    <span th:text="${order.owner.username}"></span>
+                    <a th:href="@{/admin/order/{id}/update_status (id=${order.id})}">Change Status</a>
+                </td>
+                <td><a th:href="@{/admin/order/details/{id}(id=${order.id})}" th:text="${order.orderItems.size} + ' items'"></a> </td>
+            </tr>
+            </tbody>
+            <tfoot></tfoot>
+        </table>
+    </div>
+</section>
+
+</body>
+</html>

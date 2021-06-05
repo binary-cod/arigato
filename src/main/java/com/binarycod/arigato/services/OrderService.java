@@ -38,4 +38,8 @@ public class OrderService {
     public Optional<Order> findById(Long id) {
         return orderRepository.findById(id);
     }
+
+    public List<Order> getAllListOfOrderByStatus(Order.STATUS status) {
+        return orderRepository.getOrderByStatus(status);
+    }
 }
