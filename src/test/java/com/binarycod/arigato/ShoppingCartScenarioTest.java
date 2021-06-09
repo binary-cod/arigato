@@ -117,4 +117,43 @@ public class ShoppingCartScenarioTest {
         .andExpect(model().attribute("totalPrice", Matchers.equalTo(70.0)));
 
     }
+
+    @Test
+    @DisplayName("after removing product from shopping cart, we should see correct items and totalPrice")
+    public void deleteItemFromShoppingCart() throws Exception{
+
+
+        Product product1 = new Product(3l, "Jeans", 100.0, 32);
+        Product product2 = new Product(8l, "T-shirt", 25.0, 46);
+
+        List<Product> productList = new ArrayList<>();
+        productList.add(product1);
+        productList.add(product2);
+        //add item to the cart and check if the item quantity and total price of cart is correct
+        CartItem cartItem1 = new CartItem(product1, 2, product1.getPrice() * 2);
+       // cartItem1.setUuid(UUID.fromString("cartItem1"));
+        CartItem cartItem2 = new CartItem(product2, 2, product1.getPrice() * 2);
+      //  cartItem2.setUuid(UUID.fromString("cartItem2"));
+        Cart shoppingCart = new Cart();
+       // shoppingCart.setUuid(UUID.fromString("123456789UXWE"));
+        shoppingCart.getCartItemList().add(cartItem1);
+        shoppingCart.getCartItemList().add(cartItem2);
+
+        HashMap<String, Object> sessionAttr = new HashMap<>();
+        sessionAttr.put("cart", shoppingCart);
+
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.get("/cart/items/delete/{id}",
+                        cartItem1.getUuid().toString()).sessionAttrs(sessionAttr))
+                .andExpect(view().name("redirect:/cart/details"))
+                .andExpect(status().is3xxRedirection());
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/cart/details").sessionAttrs(sessionAttr))
+                .andDo(print())
+                .andExpect(view().name("cart_details"))
+                .andExpect(model().attribute("cartItems", Matchers.<List<CartItem>>allOf(Matchers.hasSize(2))))
+                .andExpect(model().attribute("totalPrice", Matchers.equalTo(150.0)));
+
+    }
 }
