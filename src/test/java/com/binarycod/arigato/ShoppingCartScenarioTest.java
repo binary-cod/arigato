@@ -70,8 +70,8 @@ public class ShoppingCartScenarioTest {
     public void addProductToShoppingCart() throws Exception{
 
 
-        Product product1 = new Product(3l, "Jeans", 100.0, 32);
-        Product product2 = new Product(8l, "T-Shirt", 25.0, 46);
+        Product product1 = new Product(10l, "pants", 20.0, 30);
+        Product product2 = new Product(8l, "t-shirt", 15.0, 32);
 
         List<Product> productList = new ArrayList<>();
         productList.add(product1);
@@ -104,11 +104,17 @@ public class ShoppingCartScenarioTest {
                 .andExpect(view().name("redirect:/"))
                 .andExpect(status().is3xxRedirection());
 
+        mockMvc.perform(
+                MockMvcRequestBuilders.get("/cart/add/{id}",
+                        product2.getId()).sessionAttrs(sessionAttr))
+                .andExpect(view().name("redirect:/"))
+                .andExpect(status().is3xxRedirection());
+
         mockMvc.perform(MockMvcRequestBuilders.get("/cart/details").sessionAttrs(sessionAttr))
                 .andDo(print())
                 .andExpect(view().name("cart_details"))
                 .andExpect(model().attribute("cartItems", Matchers.<List<CartItem>>allOf(Matchers.hasSize(2))))
-        .andExpect(model().attribute("totalPrice", Matchers.equalTo(225.0)));
+        .andExpect(model().attribute("totalPrice", Matchers.equalTo(70.0)));
 
     }
 }
