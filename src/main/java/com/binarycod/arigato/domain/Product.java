@@ -17,17 +17,14 @@ public class Product {
     @OneToMany(fetch = FetchType.EAGER)
     List<Image> images;
 
-    public List<Image> getImages() {
-        return images;
-    }
-
-    public void setImages(List<Image> images) {
-        this.images = images;
-    }
-
-
-
     public Product(){}
+
+    public Product(Long id, String name, Double price, Integer size) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.size = size;
+    }
 
     public java.lang.Long getId() {
         return id;
@@ -61,5 +58,12 @@ public class Product {
         this.size = size;
     }
 
+    public List<Image> getImages() {
+        return images;
+    }
+
+    public void setImages(List<Image> images) {
+        this.images = images;
+    }
 
 }
