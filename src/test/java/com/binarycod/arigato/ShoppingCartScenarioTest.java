@@ -38,7 +38,7 @@ public class ShoppingCartScenarioTest {
     InventoryService inventoryService;
 
     @Test
-    public void loadProductsOnHome() throws Exception{
+    public void loadProductsOnHome() throws Exception {
         Product product1 = new Product(3l, "Jeans", 100.0, 32);
         Product product2 = new Product(8l, "T-Shirt", 25.0, 46);
 
@@ -52,14 +52,14 @@ public class ShoppingCartScenarioTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(view().name("home"))
-                .andExpect(model().attribute("products", Matchers.<List<Product>> allOf(Matchers.hasSize(2))))
+                .andExpect(model().attribute("products", Matchers.<List<Product>>allOf(Matchers.hasSize(2))))
                 .andExpect(model().attribute("products", Matchers.hasItem(product1)));
     }
 
 
     @Test
     @DisplayName("call to cart details on empty cart should redirect us to /")
-    public void showEmptyShoppingCart() throws Exception{
+    public void showEmptyShoppingCart() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/cart/details"))
                 .andDo(print())
                 .andExpect(status().is3xxRedirection());
@@ -67,8 +67,7 @@ public class ShoppingCartScenarioTest {
 
     @Test
     @DisplayName("after adding product into shopping cart, we should see exactly the item we added in cart")
-    public void addProductToShoppingCart() throws Exception{
-
+    public void addProductToShoppingCart() throws Exception {
 
         Product product1 = new Product(3l, "Jeans", 100.0, 32);
         Product product2 = new Product(8l, "T-Shirt", 25.0, 46);
@@ -104,11 +103,56 @@ public class ShoppingCartScenarioTest {
                 .andExpect(view().name("redirect:/"))
                 .andExpect(status().is3xxRedirection());
 
+        mockMvc.perform(
+                MockMvcRequestBuilders.get("/cart/add/{id}",
+                        product2.getId()).sessionAttrs(sessionAttr))
+                .andExpect(view().name("redirect:/"))
+                .andExpect(status().is3xxRedirection());
+
         mockMvc.perform(MockMvcRequestBuilders.get("/cart/details").sessionAttrs(sessionAttr))
                 .andDo(print())
                 .andExpect(view().name("cart_details"))
                 .andExpect(model().attribute("cartItems", Matchers.<List<CartItem>>allOf(Matchers.hasSize(2))))
-        .andExpect(model().attribute("totalPrice", Matchers.equalTo(225.0)));
+                .andExpect(model().attribute("totalPrice", Matchers.equalTo(250.0)));
+
+    }
+
+    @Test
+    @DisplayName("after removing product from shopping cart, we should see correct items and totalPrice")
+    public void deleteItemFromShoppingCart() throws Exception {
+
+
+        Product product1 = new Product(3l, "Jeans", 100.0, 32);
+        Product product2 = new Product(8l, "T-shirt", 25.0, 46);
+
+        List<Product> productList = new ArrayList<>();
+        productList.add(product1);
+        productList.add(product2);
+
+        CartItem cartItem1 = new CartItem(product1, 2, product1.getPrice() * 2);
+
+        CartItem cartItem2 = new CartItem(product2, 2, product2.getPrice() * 2);
+
+        Cart shoppingCart = new Cart();
+
+        shoppingCart.getCartItemList().add(cartItem1);
+        shoppingCart.getCartItemList().add(cartItem2);
+
+        HashMap<String, Object> sessionAttr = new HashMap<>();
+        sessionAttr.put("cart", shoppingCart);
+
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.get("/cart/items/delete/{id}",
+                        cartItem1.getUuid().toString()).sessionAttrs(sessionAttr))
+                .andExpect(view().name("redirect:/cart/details"))
+                .andExpect(status().is3xxRedirection());
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/cart/details").sessionAttrs(sessionAttr))
+                .andDo(print())
+                .andExpect(view().name("cart_details"))
+                .andExpect(model().attribute("cartItems", Matchers.<List<CartItem>>allOf(Matchers.hasSize(2))))
+                .andExpect(model().attribute("totalPrice", Matchers.equalTo(150.0)));
 
     }
 }

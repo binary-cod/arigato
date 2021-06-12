@@ -18,7 +18,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.stream.Stream;
 
 @Service
-public class FileStorageServiceImpl implements FileStorageService{
+public class FileStorageServiceImpl implements FileStorageService {
 
     @Value("${app.upload.location:${user.home}}")
     public String storageLocation;
@@ -36,13 +36,13 @@ public class FileStorageServiceImpl implements FileStorageService{
 
         try {
             Files.copy(file.getInputStream(), uploadLocation, StandardCopyOption.REPLACE_EXISTING);
-            System.out.println("URI will be "+ buildUrl(file.getName()).getURI());
+            System.out.println("URI will be " + buildUrl(file.getName()).getURI());
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public Resource buildUrl(String filename){
+    public Resource buildUrl(String filename) {
 
         Path file = Paths.get(storageLocation).resolve(filename);
         try {
@@ -58,7 +58,7 @@ public class FileStorageServiceImpl implements FileStorageService{
     public Stream<Path> loadAll() {
         Path root = Paths.get(storageLocation);
         try {
-            return Files.walk(root, 1).filter(path -> !path.equals(root)).map(root :: relativize);
+            return Files.walk(root, 1).filter(path -> !path.equals(root)).map(root::relativize);
         } catch (IOException e) {
             throw new RuntimeException("Could not load files");
         }
