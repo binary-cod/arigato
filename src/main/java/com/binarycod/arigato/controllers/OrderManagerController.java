@@ -40,4 +40,31 @@ public class OrderManagerController {
         model.addAttribute("orders", orderService.getAllListOfOrderByStatus(Order.STATUS.valueOf(status)));
         return "admin_order_list";
     }
+
+    @GetMapping("/details/{id}")
+    public String showOrderDetails(@PathVariable Long id, Model model, Authentication authentication) {
+        Optional<Order> orderOptional = orderService.findById(id);
+
+        if (!orderOptional.isPresent())
+            return "redirect:/admin/orders";
+        model.addAttribute("order", orderOptional.get());
+        model.addAttribute("statuses", Order.STATUS.values());
+
+        return "admin_order_details";
+    }
+
+    @GetMapping("/update/{id}/status/{status}")
+    public String changeOrderStatus(@PathVariable Long id, @PathVariable String status){
+
+        Optional<Order> orderOptional = orderService.findById(id);
+        if (!orderOptional.isPresent())
+            return "redirect:/admin/orders/list/NEW";
+
+        Order order = orderOptional.get();
+        order.setStatus(Order.STATUS.valueOf(status));
+
+        orderService.placeAnOrder(order);
+
+        return "redirect:/admin/orders/list/"+status;
+    }
 }
