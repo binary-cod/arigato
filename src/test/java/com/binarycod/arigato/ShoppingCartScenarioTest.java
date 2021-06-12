@@ -38,7 +38,7 @@ public class ShoppingCartScenarioTest {
     InventoryService inventoryService;
 
     @Test
-    public void loadProductsOnHome() throws Exception{
+    public void loadProductsOnHome() throws Exception {
         Product product1 = new Product(3l, "Jeans", 100.0, 32);
         Product product2 = new Product(8l, "T-Shirt", 25.0, 46);
 
@@ -52,14 +52,14 @@ public class ShoppingCartScenarioTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(view().name("home"))
-                .andExpect(model().attribute("products", Matchers.<List<Product>> allOf(Matchers.hasSize(2))))
+                .andExpect(model().attribute("products", Matchers.<List<Product>>allOf(Matchers.hasSize(2))))
                 .andExpect(model().attribute("products", Matchers.hasItem(product1)));
     }
 
 
     @Test
     @DisplayName("call to cart details on empty cart should redirect us to /")
-    public void showEmptyShoppingCart() throws Exception{
+    public void showEmptyShoppingCart() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/cart/details"))
                 .andDo(print())
                 .andExpect(status().is3xxRedirection());
@@ -67,11 +67,10 @@ public class ShoppingCartScenarioTest {
 
     @Test
     @DisplayName("after adding product into shopping cart, we should see exactly the item we added in cart")
-    public void addProductToShoppingCart() throws Exception{
+    public void addProductToShoppingCart() throws Exception {
 
-
-        Product product1 = new Product(10l, "pants", 20.0, 30);
-        Product product2 = new Product(8l, "t-shirt", 15.0, 32);
+        Product product1 = new Product(3l, "Jeans", 100.0, 32);
+        Product product2 = new Product(8l, "T-Shirt", 25.0, 46);
 
         List<Product> productList = new ArrayList<>();
         productList.add(product1);
@@ -114,13 +113,13 @@ public class ShoppingCartScenarioTest {
                 .andDo(print())
                 .andExpect(view().name("cart_details"))
                 .andExpect(model().attribute("cartItems", Matchers.<List<CartItem>>allOf(Matchers.hasSize(2))))
-        .andExpect(model().attribute("totalPrice", Matchers.equalTo(70.0)));
+                .andExpect(model().attribute("totalPrice", Matchers.equalTo(250.0)));
 
     }
 
     @Test
     @DisplayName("after removing product from shopping cart, we should see correct items and totalPrice")
-    public void deleteItemFromShoppingCart() throws Exception{
+    public void deleteItemFromShoppingCart() throws Exception {
 
 
         Product product1 = new Product(3l, "Jeans", 100.0, 32);
@@ -129,13 +128,13 @@ public class ShoppingCartScenarioTest {
         List<Product> productList = new ArrayList<>();
         productList.add(product1);
         productList.add(product2);
-        //add item to the cart and check if the item quantity and total price of cart is correct
+
         CartItem cartItem1 = new CartItem(product1, 2, product1.getPrice() * 2);
-       // cartItem1.setUuid(UUID.fromString("cartItem1"));
-        CartItem cartItem2 = new CartItem(product2, 2, product1.getPrice() * 2);
-      //  cartItem2.setUuid(UUID.fromString("cartItem2"));
+
+        CartItem cartItem2 = new CartItem(product2, 2, product2.getPrice() * 2);
+
         Cart shoppingCart = new Cart();
-       // shoppingCart.setUuid(UUID.fromString("123456789UXWE"));
+
         shoppingCart.getCartItemList().add(cartItem1);
         shoppingCart.getCartItemList().add(cartItem2);
 

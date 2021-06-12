@@ -41,13 +41,14 @@ public class CartController {
 
     PaymentIntent intent;
     private Gson gson = new Gson();
+
     @GetMapping
-    public String getCart(@ModelAttribute("cart") Cart cart){
+    public String getCart(@ModelAttribute("cart") Cart cart) {
         return "redirect:/";
     }
 
     @GetMapping("/add/{id}")
-    public String addItemToCart(@PathVariable Long id, @ModelAttribute("cart") Cart cart){
+    public String addItemToCart(@PathVariable Long id, @ModelAttribute("cart") Cart cart) {
         //1. checking if product exists, if not redirects to "/"
         Optional<Product> optionalProduct = productService.getProductById(id);
         if (!optionalProduct.isPresent())
@@ -57,15 +58,15 @@ public class CartController {
             cart.setUuid(UUID.randomUUID());
         }
         //3. checking if cartItem with same product exist in cart, in order not to duplicate
-        boolean match=false;
-        for( CartItem cartItem: cart.getCartItemList()){
-            if(cartItem.getProduct().getId()==id){
-                match=true;
-                cartItem.setQuantity(cartItem.getQuantity()+1);
+        boolean match = false;
+        for (CartItem cartItem : cart.getCartItemList()) {
+            if (cartItem.getProduct().getId() == id) {
+                match = true;
+                cartItem.setQuantity(cartItem.getQuantity() + 1);
                 cartItem.setTotalPrice(cartItem.getTotalPrice() + cartItem.getProduct().getPrice());
             }
         }
-        if(!match){
+        if (!match) {
             Product p = optionalProduct.get();
             CartItem cartItem = new CartItem(p, 1, p.getPrice() * 1);
             cart.getCartItemList().add(cartItem);
@@ -76,7 +77,7 @@ public class CartController {
 
 
     @GetMapping("/details")
-    public String showDetails(@ModelAttribute("cart") Cart cart, Model model){
+    public String showDetails(@ModelAttribute("cart") Cart cart, Model model) {
         List<CartItem> cartItems = cart.getCartItemList();
         if (cartItems.size() == 0)
             return "redirect:/";
@@ -91,7 +92,7 @@ public class CartController {
     }
 
     @GetMapping("/items/delete/{id}")
-    public String deleteItemFromCard(@PathVariable String id, @ModelAttribute("cart") Cart cart){
+    public String deleteItemFromCard(@PathVariable String id, @ModelAttribute("cart") Cart cart) {
         cart.removeItem(UUID.fromString(id));
         return "redirect:/cart/details";
     }
@@ -99,7 +100,7 @@ public class CartController {
     @GetMapping("/checkout")
     public String cartCheckout(Authentication authentication,
                                @ModelAttribute("cart") Cart cart,
-                               Model model){
+                               Model model) {
 
         if (authentication.isAuthenticated())
             cart.setOwner((CustomUser) authentication.getPrincipal());
@@ -133,13 +134,13 @@ public class CartController {
 
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json; charset=utf-8");
-        String json = "{\"clientSecret\":\""+ intent.getClientSecret() +"\"}";
+        String json = "{\"clientSecret\":\"" + intent.getClientSecret() + "\"}";
         JsonObject convertedObject = new Gson().fromJson(json, JsonObject.class);
         return new ResponseEntity<String>(String.valueOf(convertedObject), headers, HttpStatus.OK);
     }
 
     @ModelAttribute("cart")
-    public Cart cart(){
+    public Cart cart() {
         return new Cart();
     }
 }

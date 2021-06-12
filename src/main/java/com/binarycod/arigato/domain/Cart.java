@@ -43,7 +43,7 @@ public class Cart {
         this.totalPrice = totalPrice;
     }
 
-    public Boolean containsItem(UUID uuid){
+    public Boolean containsItem(UUID uuid) {
         Optional<CartItem> item = cartItemList
                 .stream()
                 .filter(cartItem -> cartItem.getUuid().equals(uuid))
@@ -52,7 +52,7 @@ public class Cart {
     }
 
 
-    public Optional<Double> getCartTotalPrice(){
+    public Optional<Double> getCartTotalPrice() {
         return cartItemList
                 .stream()
                 .map(cartItem -> cartItem.getTotalPrice())
@@ -61,23 +61,23 @@ public class Cart {
 
     @Override
     public String toString() {
-        return ""+cartItemList.size();
+        return "" + cartItemList.size();
 
     }
 
     public void removeItem(UUID uuid) {
-        boolean cartItemIsEmpty=false;
-        for(CartItem cartItem : cartItemList){
-            if(cartItem.getUuid().equals(uuid)){
-                cartItem.setQuantity(cartItem.getQuantity()-1);
+        boolean cartItemIsEmpty = false;
+        for (CartItem cartItem : cartItemList) {
+            if (cartItem.getUuid().equals(uuid)) {
+                cartItem.setQuantity(cartItem.getQuantity() - 1);
                 cartItem.setTotalPrice(cartItem.getTotalPrice() - cartItem.getProduct().getPrice());
-                if(cartItem.getQuantity() <=0){
-                    cartItemIsEmpty=true;
+                if (cartItem.getQuantity() <= 0) {
+                    cartItemIsEmpty = true;
                 }
             }
         }
-        if(cartItemIsEmpty){
-            cartItemList=cartItemList.stream()
+        if (cartItemIsEmpty) {
+            cartItemList = cartItemList.stream()
                     .filter(cartItem -> !cartItem.getUuid().equals(uuid))
                     .collect(Collectors.toList());
         }
