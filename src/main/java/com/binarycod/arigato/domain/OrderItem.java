@@ -1,22 +1,29 @@
 package com.binarycod.arigato.domain;
 
-import java.util.UUID;
+import javax.persistence.*;
 
-public class CartItem {
+@Entity
+public class OrderItem {
 
-    private UUID uuid;
-    private Product product;
-    private Integer quantity;
-    private Double totalPrice;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    Long id;
 
-    public CartItem(){
+    @OneToOne
+    Product product;
+
+    Integer quantity;
+
+    Double totalPrice;
+
+    public OrderItem(){}
+
+    public Long getId() {
+        return id;
     }
 
-    public CartItem(Product product, Integer quantity, Double totalPrice) {
-        this.uuid = UUID.randomUUID();
-        this.product = product;
-        this.quantity = quantity;
-        this.totalPrice = totalPrice;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Product getProduct() {
@@ -41,13 +48,5 @@ public class CartItem {
 
     public void setTotalPrice(Double totalPrice) {
         this.totalPrice = totalPrice;
-    }
-
-    public UUID getUuid() {
-        return uuid;
-    }
-
-    public void setUuid(UUID uuid) {
-        this.uuid = uuid;
     }
 }

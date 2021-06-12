@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layout.html}">
+<html lang="en">
+<!-- CSS only -->
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+</head>
+<body>
+<section layout:fragment="content">
+    <div class="container">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>-</th>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Size</th>
+                <th>Quantity</th>
+                <th>Sub-Total Price</th>
+            </tr>
+            </thead>
+            <tr th:each="item : ${order.orderItems}">
+                <td>
+                    <img th:unless=${#lists.isEmpty(item.product.images)}
+                         th:src="${item.product.images[0].link}"
+                         class="img-thumbnail"
+                         width="150" height="150">
+                    <img th:if=${#lists.isEmpty(item.product.images)}
+                         th:src="@{/images/No_image_available.svg.png}"
+                         class="img-thumbnail"
+                         width="150" height="150">
+                </td>
+                <td th:text="${item.product.name}"></td>
+                <td th:text="${item.product.price}"></td>
+                <td th:text="${item.product.size}"></td>
+                <td th:text="${item.quantity}"></td>
+                <td th:text="${item.totalPrice}"></td>
+            </tr>
+        </table>
+        <div class="row">
+            <div class="col" th:each="status: ${statuses}">
+                <a th:href="@{/admin/orders/update/{id}/status/{status} (id=${order.id}, status=${status})}"
+                   th:text="${status}" class="btn btn-info"></a>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+</body>
+</html>
