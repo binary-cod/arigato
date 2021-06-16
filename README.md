@@ -17,3 +17,5 @@ in __application.properties__ you need to define variables below
 stripe.keys.public=pk_test_
 stripe.keys.secret=sk_test_
 ```
+
+some text to test the triggers
