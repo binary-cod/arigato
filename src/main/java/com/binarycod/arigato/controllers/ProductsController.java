@@ -4,13 +4,12 @@ import com.binarycod.arigato.domain.Product;
 import com.binarycod.arigato.services.ImageService;
 import com.binarycod.arigato.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -28,6 +27,20 @@ public class ProductsController {
     public String getProducts(Model model){
        model.addAttribute("products", productService.getAllProducts());
        return "product_list";
+    }
+
+    @GetMapping("/page/{pNum}")
+    public String getProductsPaged(@PathVariable int pNum, Model model){
+        int pageSize = 3;
+
+        Page<Product> productsPage = productService.getPaginatedList(pNum, pageSize);
+        List<Product> productList = productsPage.getContent();
+
+        model.addAttribute("currentPage", pNum);
+        model.addAttribute("totalPages", productsPage.getTotalPages());
+        model.addAttribute("totalItem", productsPage.getTotalElements());
+        model.addAttribute("products", productList);
+        return "product_list";
     }
 
     @GetMapping("/new")
