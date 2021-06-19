@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  mariadb-docker-container:
+    image: mariadb:latest
+    environment:
+      - MARIADB_ROOT_PASSWORD=root123
+      - MARIADB_DATABASE=arigato_jpa_db
+      - MARIADB_USER=arigato_db_user
+      - MARIADB_PASSWORD=1qaz
+    volumes:
+      - /data/mariadb
+  arigato-app:
+    image: arigato:1.0
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    depends_on:
+      - maria-docker-container
+    ports:
+      - 8080:8080
+    volumes:
+      - /data/arigato-app
